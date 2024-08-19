@@ -1,0 +1,18 @@
+{
+  "id": "1",
+  "nomeCapitolo": "",
+  "paragrafi": [
+    {
+      "id": "1.1",
+      "nomeParagrafo": "",
+      "codicePlSql": "",
+      "outPutSql": ""
+    },
+    {
+      "id": "1.2",
+      "nomeParagrafo": "",
+      "codicePlSql": "select * from dual where pippo='b'",
+      "outPutSql": ""
+    }
+  ]
+}
