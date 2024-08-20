@@ -13,7 +13,7 @@ const {
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // Permette tutte le origini
+    origin: "https://projectquery.netlify.app", // Permette tutte le origini
     methods: ["GET", "POST", "PUT", "DELETE"], // Metodi permessi
     allowedHeaders: ["Content-Type", "Authorization"], // Intestazioni permessi
   })
