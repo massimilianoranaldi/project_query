@@ -9,8 +9,17 @@ const {
   insertParagraph,
 } = require("./utils/manageAddRemove");
 
+//app.use(cors()); //permette alle risorse su un server web di essere richieste da un dominio diverso
+
+app.use(
+  cors({
+    origin: "*", // Permette tutte le origini
+    methods: ["GET", "POST", "PUT", "DELETE"], // Metodi permessi
+    allowedHeaders: ["Content-Type", "Authorization"], // Intestazioni permessi
+  })
+);
+
 app.use(express.json()); //uso questo middleware per gestoire i json
-app.use(cors()); //permette alle risorse su un server web di essere richieste da un dominio diverso
 
 //QUESTA FUNZIONE INSERISCE UN OGGETTO NELL'ARRAY : O UN CAPITOLO O UN PARAGRAFO
 //---------------------------------------------------------------------------------------------------------

@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:3000";
+//const API_BASE_URL = "http://localhost:3000";
 
-//const API_BASE_URL = "https://project-query.onrender.com";
+const API_BASE_URL = "https://project-query.onrender.com";
 
 //questa funzione viene utilizzata per la creazione di task asincroni al di fuori dello slice (es. chiamate api)
 export const fetchCapitoli = createAsyncThunk(
