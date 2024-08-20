@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-//import axios from "axios";
+// App.jsx
 
+import React, { useEffect, useState, useCallback } from "react";
 import IndiceCapitoliParagrafi from "./components/IndiceCapitoliParagrafi";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCapitoli } from "./redux/capitoliSlice";
+import { fetchCapitoli, addParagrafo } from "./redux/capitoliSlice";
 import ListaCapitoliParagrafi from "./components/ListaCapitoliParagrafi";
 import CapitoloParagrafoForm from "./components/CapitoloParagrafoForm";
 import paragrafoIcon4 from "./assets/aggiungi_capitolo.png";
@@ -13,25 +13,43 @@ function App() {
   const {
     data: dataCapitoli,
     loading,
+    adding,
     error,
   } = useSelector((state) => state.capitoli);
   const [showAddCapitoloForm, setShowAddCapitoloForm] = useState({
     id: null,
     operazione: null,
   });
-  useEffect(() => {
+
+  // Funzione per effettuare il fetch dei capitoli
+  const loadCapitoli = useCallback(() => {
     dispatch(fetchCapitoli());
   }, [dispatch]);
 
-  if (loading) {
+  useEffect(() => {
+    loadCapitoli();
+  }, [loadCapitoli]);
+
+  // Gestisci la logica di salvataggio
+  const handleSave = async (newCapitolo) => {
+    // Implementa la logica per salvare un nuovo capitolo
+    console.log("Saving new capitolo:", newCapitolo);
+    try {
+      await dispatch(addParagrafo(newCapitolo)).unwrap(); // Aspetta che l'inserimento sia completato
+      loadCapitoli(); // Ricarica i dati dopo l'inserimento
+    } catch (error) {
+      console.error("Error saving capitolo:", error);
+    }
+    setShowAddCapitoloForm({ id: null, operazione: null });
+  };
+
+  if (loading || adding) {
     return <div>Loading...</div>;
   }
 
   if (error) {
     return <div>Error: {error.message}</div>;
   }
-
-  //----------------
 
   const handleAddCapitoloClick = () => {
     setShowAddCapitoloForm({ id: null, operazione: "addChapter" });
@@ -40,17 +58,6 @@ function App() {
   const handleCancelAddCapitolo = () => {
     setShowAddCapitoloForm({ id: null, operazione: null });
   };
-
-  const handleSave = (newCapitolo) => {
-    // Implementa la logica per salvare un nuovo capitolo
-    console.log("Saving new capitolo:", newCapitolo);
-    // Dopo il salvataggio, nascondi il modulo
-
-    // Potresti voler rifare il fetch dei capitoli per aggiornare la lista
-    dispatch(fetchCapitoli());
-    setShowAddCapitoloForm({ id: null, operazione: null });
-  };
-  //------------------
 
   return (
     <>
