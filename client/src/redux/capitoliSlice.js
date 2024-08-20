@@ -1,12 +1,17 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const API_BASE_URL = "http://localhost:3000";
+
+//const API_BASE_URL = "https://project-query.onrender.com";
+
 //questa funzione viene utilizzata per la creazione di task asincroni al di fuori dello slice (es. chiamate api)
 export const fetchCapitoli = createAsyncThunk(
   "capitoli/fetchCapitoli",
   async () => {
     const response = await axios.get(
-      "http://localhost:3000/getCapitoliParagrafi"
+      //"http://localhost:3000/getCapitoliParagrafi"
+      `${API_BASE_URL}/getCapitoliParagrafi`
     );
     return response.data.data;
   }
@@ -17,7 +22,8 @@ export const addParagrafo = createAsyncThunk(
   "capitoli/addParagrafo",
   async (payload) => {
     const response = await axios.post(
-      "http://localhost:3000/inserisciCapitolo",
+      //"http://localhost:3000/inserisciCapitolo",
+      `${API_BASE_URL}/inserisciCapitolo`,
       payload
     );
     return response.data.data; // Assumi che il server ritorni i dati aggiornati
@@ -29,7 +35,8 @@ export const modificaCapitolo = createAsyncThunk(
   "capitoli/modificaCapitolo",
   async (payload) => {
     const response = await axios.post(
-      "http://localhost:3000/modificaNomeCapitolo",
+      //"http://localhost:3000/modificaNomeCapitolo",
+      `${API_BASE_URL}/modificaNomeCapitolo`,
       payload
     );
     return response.data.data; // Assumi che il server ritorni i dati aggiornati
@@ -41,7 +48,8 @@ export const modificaParagrafo = createAsyncThunk(
   "capitoli/modificaParagrafo",
   async (payload) => {
     const response = await axios.post(
-      "http://localhost:3000/modificaParagrafo",
+      //"http://localhost:3000/modificaParagrafo",
+      `${API_BASE_URL}/modificaParagrafo`,
       payload
     );
     return response.data.data; // Assumi che il server ritorni i dati aggiornati
@@ -52,7 +60,7 @@ export const eliminaParagrafo = createAsyncThunk(
   "capitoli/eliminaParagrafo",
   async (objectId, { dispatch, rejectWithValue }) => {
     try {
-      const url = `http://localhost:3000/eliminaCapitoloParagrafo/${objectId}`;
+      const url = `${API_BASE_URL}/eliminaCapitoloParagrafo/${objectId}`;
       await axios.post(url);
       // Dopo aver eliminato il paragrafo, recupera di nuovo i capitoli
       dispatch(fetchCapitoli());
