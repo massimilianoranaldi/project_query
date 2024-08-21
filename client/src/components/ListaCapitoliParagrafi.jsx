@@ -17,14 +17,14 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
   });
   const dispatch = useDispatch();
   const heightLimitTable = 300; // Altezza limite per la tabella in pixel
-  const heightLimitCode = 700; // Altezza limite per il codice in pixel
+  const heightLimitCode = 300; // Altezza limite per il codice in pixel
 
   const calculateTableHeight = (rows) => rows.length * 24; // Altezza stimata per ogni riga della tabella
 
   const calculateCodeHeight = (code) => {
     // Stimiamo che ogni riga del codice abbia una certa altezza
     const lines = code.split("\n");
-    return lines.length * 14; // Altezza stimata per ogni riga del codice
+    return lines.length * 10; // Altezza stimata per ogni riga del codice
   };
 
   const renderTableFromCSV = (csv) => {
