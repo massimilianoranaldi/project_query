@@ -19,6 +19,9 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"], // Intestazioni permessi
   })
 );
+// Configura body-parser per accettare payloads più grandi
+app.use(express.json({ limit: "50mb" })); // Aumenta il limite per JSON
+app.use(express.urlencoded({ limit: "50mb", extended: true })); // Aumenta il limite per URL-encoded
 
 app.use(express.json()); //uso questo middleware per gestoire i json
 

@@ -72,6 +72,17 @@ export const eliminaParagrafo = createAsyncThunk(
   }
 );
 
+export const importCapitoli = createAsyncThunk(
+  "capitoli/importCapitoli",
+  async (jsonData) => {
+    const response = await axios.post(
+      `${API_BASE_URL}/caricaCapitoli`,
+      jsonData
+    );
+    return response.data.data;
+  }
+);
+
 const capitoliSlice = createSlice({
   name: "capitoli", // è il nome della variabile definita nello store.js
   initialState: {
@@ -167,6 +178,18 @@ const capitoliSlice = createSlice({
       .addCase(modificaParagrafo.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+      })
+      //-----------------------------
+      .addCase(importCapitoli.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(importCapitoli.fulfilled, (state, action) => {
+        state.data = action.payload; // Aggiorna i dati con i nuovi importati
+        state.loading = false;
+      })
+      .addCase(importCapitoli.rejected, (state, action) => {
+        state.error = action.error;
+        state.loading = false;
       });
   },
 });

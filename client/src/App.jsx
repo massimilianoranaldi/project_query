@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import IndiceCapitoliParagrafi from "./components/IndiceCapitoliParagrafi";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCapitoli, addParagrafo } from "./redux/capitoliSlice";
+import {
+  fetchCapitoli,
+  addParagrafo,
+  importCapitoli,
+} from "./redux/capitoliSlice";
 import ListaCapitoliParagrafi from "./components/ListaCapitoliParagrafi";
 import CapitoloParagrafoForm from "./components/CapitoloParagrafoForm";
 import paragrafoIcon4 from "./assets/aggiungi_capitolo.png";
@@ -65,12 +69,9 @@ function App() {
               const jsonString = reader.result;
               const jsonData = JSON.parse(jsonString);
 
-              // Invia i dati JSON all'API
-              await axios.post(`${API_BASE_URL}/caricaCapitoli`, jsonData);
+              // Invia i dati JSON all'API tramite Redux
+              await dispatch(importCapitoli(jsonData));
               alert("Dati importati con successo!");
-
-              // Refresh dei dati usando Redux
-              dispatch(fetchCapitoli());
             } catch (error) {
               console.error("Errore durante l'importazione dei dati:", error);
               alert("Errore durante l'importazione dei dati.");
