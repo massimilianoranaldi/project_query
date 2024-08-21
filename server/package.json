@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "deploy": "npm run copy-db && npm start",
+    "start": "nodemon index.js",
+    "copy-db": "node copyDb.js"
   },
   "author": "",
   "license": "ISC",
