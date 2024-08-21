@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import ParagrafoForm from "./CapitoloParagrafoForm"; // Assicurati di avere il percorso corretto
+import React from "react";
+import ParagrafoForm from "./CapitoloParagrafoForm";
 import { useDispatch } from "react-redux";
 import { eliminaParagrafo } from "../redux/capitoliSlice";
 import paragrafoIcon from "../assets/aggiungi_paragrafo.png";
@@ -11,25 +11,37 @@ import paragrafoIcon9 from "../assets/copia_plsql.png";
 import paragrafoIcon10 from "../assets/torna_su.png";
 
 const ListaCapitoliParagrafi = ({ capitoli }) => {
-  const [visibleForm, setVisibleForm] = useState({
+  const [visibleForm, setVisibleForm] = React.useState({
     id: null,
     operazione: null,
   });
-  const dispatch = useDispatch(); //NEW
+  const dispatch = useDispatch();
+  const heightLimitTable = 300; // Altezza limite per la tabella in pixel
+  const heightLimitCode = 700; // Altezza limite per il codice in pixel
+
+  const calculateTableHeight = (rows) => rows.length * 24; // Altezza stimata per ogni riga della tabella
+
+  const calculateCodeHeight = (code) => {
+    // Stimiamo che ogni riga del codice abbia una certa altezza
+    const lines = code.split("\n");
+    return lines.length * 14; // Altezza stimata per ogni riga del codice
+  };
 
   const renderTableFromCSV = (csv) => {
     if (!csv) return null;
 
-    // Funzione per gestire la separazione multipla
-    const splitRow = (row) => {
-      // Divide usando \t e ; come separatori
-      return row.split(/[\t;]/);
-    };
-
+    const splitRow = (row) => row.split(/[\t;]/);
     const rows = csv.split("\n").map(splitRow);
 
+    const tableHeight = calculateTableHeight(rows);
+
     return (
-      <div className="overflow-x-auto ">
+      <div
+        className={`overflow-x-auto ${
+          tableHeight > heightLimitTable ? "border-r-0 border-white" : ""
+        }`}
+        style={{ maxHeight: `${heightLimitTable}px`, overflowY: "auto" }}
+      >
         <table className="table-auto border-collapse border border-gray-300 w-full text-xs mt-4">
           <thead>
             <tr>
@@ -62,21 +74,44 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
     );
   };
 
-  //SAVE-CANCEL
+  const renderCodeBlock = (code) => {
+    if (!code) return null;
+
+    const codeHeight = calculateCodeHeight(code);
+
+    return (
+      <div
+        className={`overflow-x-auto ${
+          codeHeight > heightLimitCode ? "border-r-0 border-white" : ""
+        }`}
+        style={{
+          maxHeight: `${heightLimitCode}px`,
+          overflowY: "auto",
+        }}
+      >
+        <pre
+          className="p-0 rounded whitespace-pre"
+          style={{ fontSize: "10px" }}
+        >
+          <code className="italic text-blue-600">{code}</code>
+        </pre>
+      </div>
+    );
+  };
+
   const handleSave = (capitoloId, formValues) => {
-    // Implement the save logic here
     console.log("Saving:", formValues, "for capitolo:", capitoloId);
-    // After saving, you might want to reset the form and hide it
     setVisibleForm({ id: null, operazione: null });
   };
+
   const handleCancel = () => {
     setVisibleForm({ id: null, operazione: null });
   };
 
-  //ADD-DELETE-MODIFY
   const handleAddParagraph = (capitoloId) => {
     setVisibleForm({ id: capitoloId, operazione: "addParagraph" });
   };
+
   const handleDeleteParagraph = (objectId, objectName) => {
     const confirmDelete = window.confirm(
       `Sei sicuro di voler eliminare oggetto "${objectName}" (ID: ${objectId})?`
@@ -87,7 +122,6 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
     }
   };
 
-  //-------------------
   const handleModifyChapter = (capitoloId) => {
     setVisibleForm({ id: capitoloId, operazione: "modChapter" });
   };
@@ -95,8 +129,6 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
   const handleModifyPar = (paragrafoId) => {
     setVisibleForm({ id: paragrafoId, operazione: "modPar" });
   };
-
-  //-----------------
 
   const handleCopy = (text) => {
     navigator.clipboard.writeText(text).then(
@@ -108,14 +140,16 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
       }
     );
   };
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
   return (
-    <div className="flex flex-col pl-4 pt-4 pb-4 h-full ">
+    <div className="flex flex-col pl-4 pt-4 pb-4 h-full">
       {capitoli.map((capitolo) => (
         <div id={capitolo.id} key={capitolo.id} className="mb-6">
-          <div className="flex items-center justify-end mb-0  bg-gradient-to-r to-white from-yellow-500 ">
+          <div className="flex items-center justify-end mb-0 bg-gradient-to-r to-white from-yellow-500">
             <div className="font-bold text-xl justify-end">
               {`Cap ${capitolo.id} - ${capitolo.nomeCapitolo}`}
             </div>
@@ -128,7 +162,7 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
                 <img
                   src={paragrafoIcon}
                   alt="Aggiungi Paragrafo"
-                  className="w-5 h-5" // Imposta dimensioni appropriate per l'icona
+                  className="w-5 h-5"
                 />
               </button>
               <button
@@ -141,10 +175,9 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
                 <img
                   src={paragrafoIcon3}
                   alt="Elimina Capitolo"
-                  className="w-5 h-5" // Imposta dimensioni appropriate per l'icona
+                  className="w-5 h-5"
                 />
               </button>
-
               <button
                 title="Modifica Capitolo"
                 className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-yellow-600"
@@ -152,7 +185,7 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
                 <img
                   src={paragrafoIcon8}
                   alt="Elimina Capitolo"
-                  className="w-5 h-5" // Imposta dimensioni appropriate per l'icona
+                  className="w-5 h-5"
                   onClick={() => handleModifyChapter(capitolo.id)}
                 />
               </button>
@@ -174,12 +207,12 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
             <div
               id={paragrafo.id}
               key={paragrafo.id}
-              className="mb-0 pl-4 pt-4 pb-0  border-yellow-500 border-l-4 "
+              className="mb-0 pl-4 pt-4 pb-0 border-yellow-500 border-l-4"
             >
-              <div className="flex items-center justify-between font-semibold bg-gradient-to-r to-white from-yellow-500  ">
+              <div className="flex items-center justify-between font-semibold bg-gradient-to-r to-white from-yellow-500">
                 <span>{`Par ${paragrafo.id} - ${paragrafo.nomeParagrafo}`}</span>
 
-                <div className="relative ml-auto ">
+                <div className="relative ml-auto">
                   <button
                     title="Torna Su"
                     className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-yellow-600"
@@ -217,7 +250,7 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
                     <img
                       src={paragrafoIcon2}
                       alt="Elimina Paragrafo"
-                      className="w-5 h-5" // Imposta dimensioni appropriate per l'icona
+                      className="w-5 h-5"
                     />
                   </button>
 
@@ -228,7 +261,7 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
                     <img
                       src={paragrafoIcon7}
                       alt="Modifica Paragrafo"
-                      className="w-5 h-5" // Imposta dimensioni appropriate per l'icona
+                      className="w-5 h-5"
                       onClick={() => handleModifyPar(paragrafo.id)}
                     />
                   </button>
@@ -244,13 +277,8 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
                     onCancel={handleCancel}
                   />
                 )}
-              <div className="overflow-x-auto bg-gray-200 p-2 mt-4">
-                <pre
-                  className="p-2 rounded whitespace-pre"
-                  style={{ fontSize: "9px" }}
-                >
-                  <code>{paragrafo.codicePlSql}</code>
-                </pre>
+              <div className="overflow-x-auto bg-gray-200 p-0 mt-4">
+                {renderCodeBlock(paragrafo.codicePlSql)}
               </div>
               <div>{renderTableFromCSV(paragrafo.outPutSql)}</div>
             </div>
