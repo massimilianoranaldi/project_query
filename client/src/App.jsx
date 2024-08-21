@@ -61,14 +61,14 @@ function App() {
   return (
     <>
       <div className="mb-4 p-0 bg-white text-left border-yellow-500 border-b-4 border-l-4">
-        <h1 className="text-left text-3xl font-bold bg-gradient-to-r from-white to-yellow-500 ">
+        <h1 className="text-left text-3xl font-bold bg-gradient-to-r to-white from-yellow-500 ">
           INDICE dei Capitoli
         </h1>
         <IndiceCapitoliParagrafi capitoli={dataCapitoli} />
       </div>
 
       <div className=" bg-white border-yellow-500 border-b-4 border-l-4">
-        <div className="p-1 flex items-center justify-between bg-gradient-to-r from-white to-yellow-500 ">
+        <div className="pl-4 pt-4 pb-4  flex items-center justify-between bg-gradient-to-r to-white from-yellow-500 ">
           <h1 className="text-left text-3xl font-bold">Lista dei Capitoli</h1>
           <div className="ml-auto flex gap-2">
             <button

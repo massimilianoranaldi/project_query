@@ -29,7 +29,7 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
     const rows = csv.split("\n").map(splitRow);
 
     return (
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto ">
         <table className="table-auto border-collapse border border-gray-300 w-full text-xs mt-4">
           <thead>
             <tr>
@@ -112,10 +112,10 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
   return (
-    <div className="flex flex-col p-4 h-full">
+    <div className="flex flex-col pl-4 pt-4 pb-4 h-full">
       {capitoli.map((capitolo) => (
         <div id={capitolo.id} key={capitolo.id} className="mb-6">
-          <div className="flex items-center justify-end mb-0  bg-gradient-to-r from-white to-yellow-500 ">
+          <div className="flex items-center justify-end mb-0  bg-gradient-to-r to-white from-yellow-500 ">
             <div className="font-bold text-xl justify-end">
               {`Cap ${capitolo.id} - ${capitolo.nomeCapitolo}`}
             </div>
@@ -174,9 +174,9 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
             <div
               id={paragrafo.id}
               key={paragrafo.id}
-              className="mb-4 p-4  border-yellow-500 border-b-4 border-l-4"
+              className="mb-0 pl-4 pt-4 pb-0 pr-4 border-yellow-500 border-l-4 border-r-4"
             >
-              <div className="flex items-center justify-between font-semibold bg-gradient-to-r from-white to-yellow-500">
+              <div className="flex items-center justify-between font-semibold bg-gradient-to-r to-white from-yellow-500  ">
                 <span>{`Par ${paragrafo.id} - ${paragrafo.nomeParagrafo}`}</span>
 
                 <div className="relative ml-auto ">
@@ -244,7 +244,7 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
                     onCancel={handleCancel}
                   />
                 )}
-              <div className="overflow-x-auto bg-gray-200 p-2">
+              <div className="overflow-x-auto bg-gray-200 p-2 mt-4">
                 <pre
                   className="p-2 rounded whitespace-pre"
                   style={{ fontSize: "9px" }}
