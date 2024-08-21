@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from "react";
 import IndiceCapitoliParagrafi from "./components/IndiceCapitoliParagrafi";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchCapitoli,
-  addParagrafo,
-  importCapitoli,
-} from "./redux/capitoliSlice";
+import { fetchCapitoli } from "./redux/capitoliSlice";
 import ListaCapitoliParagrafi from "./components/ListaCapitoliParagrafi";
 import CapitoloParagrafoForm from "./components/CapitoloParagrafoForm";
 import paragrafoIcon4 from "./assets/aggiungi_capitolo.png";
 import paragrafoIcon6 from "./assets/importa.png";
 import paragrafoIcon5 from "./assets/esporta.png";
-import axios from "axios";
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import { handleImportData, handleExportData } from "./utils/dataUtils.js";
 
 function Sidebar() {
   return (
@@ -78,68 +72,6 @@ function App() {
     setShowAddCapitoloForm({ id: null, operazione: null });
   };
 
-  const handleImportData = async () => {
-    try {
-      const fileInput = document.createElement("input");
-      fileInput.type = "file";
-      fileInput.accept = ".json";
-
-      fileInput.onchange = async () => {
-        const file = fileInput.files[0];
-
-        if (file) {
-          const reader = new FileReader();
-
-          reader.onload = async () => {
-            try {
-              const jsonString = reader.result;
-              const jsonData = JSON.parse(jsonString);
-
-              await dispatch(importCapitoli(jsonData));
-              alert("Dati importati con successo!");
-            } catch (error) {
-              console.error("Errore durante l'importazione dei dati:", error);
-              alert("Errore durante l'importazione dei dati.");
-            }
-          };
-
-          reader.readAsText(file);
-        }
-      };
-
-      fileInput.click();
-    } catch (error) {
-      console.error("Errore durante l'importazione dei dati:", error);
-    }
-  };
-
-  const handleExportData = async () => {
-    try {
-      const response = await axios.get(`${API_BASE_URL}/getCapitoliParagrafi`);
-      const data = response.data.data;
-
-      const jsonString = JSON.stringify(data, null, 2);
-
-      const fileHandle = await window.showSaveFilePicker({
-        suggestedName: "capitoli.json",
-        types: [
-          {
-            description: "JSON file",
-            accept: { "application/json": [".json"] },
-          },
-        ],
-      });
-
-      const writable = await fileHandle.createWritable();
-      await writable.write(jsonString);
-      await writable.close();
-
-      alert("File salvato con successo!");
-    } catch (error) {
-      console.error("Errore durante l'esportazione dei dati:", error);
-    }
-  };
-
   return (
     <>
       <Sidebar />
@@ -171,7 +103,7 @@ function App() {
                 <button
                   title="Esporta Dati"
                   className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-yellow-600"
-                  onClick={handleExportData}
+                  onClick={() => handleExportData(dataCapitoli)}
                 >
                   <img
                     src={paragrafoIcon5}
@@ -182,7 +114,7 @@ function App() {
                 <button
                   title="Importa Dati"
                   className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-yellow-600"
-                  onClick={handleImportData}
+                  onClick={() => handleImportData(dispatch)}
                 >
                   <img
                     src={paragrafoIcon6}
