@@ -115,11 +115,11 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
     <div className="flex flex-col p-4 h-full">
       {capitoli.map((capitolo) => (
         <div id={capitolo.id} key={capitolo.id} className="mb-6">
-          <div className="flex items-center justify-between mb-0  bg-gradient-to-r from-white to-yellow-500">
-            <div className="font-bold text-xl ">
+          <div className="flex items-center justify-end mb-0  bg-gradient-to-r from-white to-yellow-500 ">
+            <div className="font-bold text-xl justify-end">
               {`Cap ${capitolo.id} - ${capitolo.nomeCapitolo}`}
             </div>
-            <div className="relative ml-auto">
+            <div className="relative ml-auto justify-end">
               <button
                 title="Aggiungi Paragrafo"
                 className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-yellow-600"
@@ -160,7 +160,8 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
           </div>
 
           {visibleForm.id === capitolo.id &&
-            visibleForm.operazione !== "modPar" && (
+            visibleForm.operazione !== "modPar" &&
+            visibleForm.operazione !== "addChapter" && (
               <ParagrafoForm
                 capitolo={capitolo}
                 operazione={visibleForm.operazione}
