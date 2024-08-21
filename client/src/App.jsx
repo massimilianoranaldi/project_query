@@ -9,7 +9,7 @@ import paragrafoIcon6 from "./assets/importa.png"; // Assicurati che il percorso
 import paragrafoIcon5 from "./assets/esporta.png"; // Assicurati che il percorso dell'icona sia corretto
 
 import axios from "axios";
-
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 function App() {
   const dispatch = useDispatch();
   const {
@@ -50,7 +50,6 @@ function App() {
 
   const handleImportData = async () => {
     try {
-      // Crea un input di tipo file per permettere all'utente di scegliere un file JSON
       const fileInput = document.createElement("input");
       fileInput.type = "file";
       fileInput.accept = ".json";
@@ -67,8 +66,11 @@ function App() {
               const jsonData = JSON.parse(jsonString);
 
               // Invia i dati JSON all'API
-              await axios.post(`${API_BASE_URL}/uploadData`, jsonData);
+              await axios.post(`${API_BASE_URL}/caricaCapitoli`, jsonData);
               alert("Dati importati con successo!");
+
+              // Refresh dei dati usando Redux
+              dispatch(fetchCapitoli());
             } catch (error) {
               console.error("Errore durante l'importazione dei dati:", error);
               alert("Errore durante l'importazione dei dati.");
