@@ -9,6 +9,10 @@ import CapitoloParagrafoForm from "./components/CapitoloParagrafoForm";
 import paragrafoIcon4 from "./assets/aggiungi_capitolo.png";
 
 function App() {
+  //const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
+  //console.log("API_BASE_URL:>>>>>>>>>>>>>>>", API_BASE_URL);
+
   const dispatch = useDispatch();
   const {
     data: dataCapitoli,
