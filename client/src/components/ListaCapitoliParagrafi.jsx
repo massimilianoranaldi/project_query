@@ -112,7 +112,7 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
   return (
-    <div className="flex flex-col pl-4 pt-4 pb-4 h-full">
+    <div className="flex flex-col pl-4 pt-4 pb-4 h-full ">
       {capitoli.map((capitolo) => (
         <div id={capitolo.id} key={capitolo.id} className="mb-6">
           <div className="flex items-center justify-end mb-0  bg-gradient-to-r to-white from-yellow-500 ">
@@ -174,7 +174,7 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
             <div
               id={paragrafo.id}
               key={paragrafo.id}
-              className="mb-0 pl-4 pt-4 pb-0 pr-4 border-yellow-500 border-l-4 border-r-4"
+              className="mb-0 pl-4 pt-4 pb-0  border-yellow-500 border-l-4 "
             >
               <div className="flex items-center justify-between font-semibold bg-gradient-to-r to-white from-yellow-500  ">
                 <span>{`Par ${paragrafo.id} - ${paragrafo.nomeParagrafo}`}</span>

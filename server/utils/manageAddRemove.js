@@ -52,9 +52,23 @@ function insertParagraph(queryDb, query) {
   capitolo.paragrafi.push(query.paragrafi[0]);
 }
 
+function rinominaId(capitoli) {
+  console.log("---------->>>>>>>>>>>>> rinomino");
+  capitoli.forEach((capitolo, indexCapitolo) => {
+    const nuovoCapitoloId = (indexCapitolo + 1).toString();
+    capitolo.id = nuovoCapitoloId;
+
+    capitolo.paragrafi.forEach((paragrafo, indexParagrafo) => {
+      const nuovoParagrafoId = `${nuovoCapitoloId}.${indexParagrafo + 1}`;
+      paragrafo.id = nuovoParagrafoId;
+    });
+  });
+}
+
 module.exports = {
   removeChapter,
   removeParagraph,
   insertChapter,
   insertParagraph,
+  rinominaId,
 };

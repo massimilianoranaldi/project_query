@@ -7,6 +7,7 @@ const {
   removeParagraph,
   insertChapter,
   insertParagraph,
+  rinominaId,
 } = require("./utils/manageAddRemove");
 
 //app.use(cors()); //permette alle risorse su un server web di essere richieste da un dominio diverso
@@ -326,6 +327,36 @@ app.post("/modificaParagrafo", (req, res) => {
         message: "Paragrafo aggiornato con successo",
       });
     });
+  });
+});
+
+//INSERISCE UN INSIEME DI CAPITOLI E PARAGRAFI
+
+app.post("/caricaCapitoli", (req, res) => {
+  const capitoli = req.body;
+
+  // Rinomina gli ID dei capitoli e paragrafi
+  rinominaId(capitoli);
+
+  // Converti i dati in formato JSON
+  const jsonString = JSON.stringify(capitoli, null, 2);
+
+  // Sovrascrivi il contenuto del file con i nuovi dati
+  writeFile("./assets/queryDb.json", jsonString, "utf8", (err) => {
+    if (err) {
+      console.error("Errore durante il salvataggio dei dati su file:", err);
+      return res.status(500).json({
+        success: false,
+        message: "Errore durante il salvataggio dei dati",
+      });
+    } else {
+      console.log("Dati salvati correttamente su queryDb.json");
+      return res.status(200).json({
+        success: true,
+        data: capitoli,
+        message: "Dati caricati e salvati con successo",
+      });
+    }
   });
 });
 
