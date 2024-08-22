@@ -1,5 +1,5 @@
 {
-  "watch": ["src"],
-  "ext": "js,json",
-  "ignore": ["assets/queryDb.json", "logs"]
+  "watch": ["."],
+  "ext": "js,json,jsx",
+  "ignore": ["assets/queryDb.json", "assets/queryDbCOM.json", "logs"]
 }

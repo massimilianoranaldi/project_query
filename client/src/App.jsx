@@ -1,46 +1,29 @@
 import React, { useEffect, useState } from "react";
 import IndiceCapitoliParagrafi from "./components/IndiceCapitoliParagrafi";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCapitoli } from "./redux/capitoliSlice";
+import { fetchCapitoli, setSystem } from "./redux/capitoliSlice";
 import ListaCapitoliParagrafi from "./components/ListaCapitoliParagrafi";
 import CapitoloParagrafoForm from "./components/CapitoloParagrafoForm";
 import paragrafoIcon4 from "./assets/aggiungi_capitolo.png";
 import paragrafoIcon6 from "./assets/importa.png";
 import paragrafoIcon5 from "./assets/esporta.png";
 import { handleImportData, handleExportData } from "./utils/dataUtils.js";
-
-function Sidebar() {
-  return (
-    <div
-      className="fixed top-0 left-0 h-full w-48 bg-yellow-500 text-white flex flex-col items-center shadow-lg"
-      style={{ zIndex: 1000 }}
-    >
-      <h2 className="mt-4 text-xl font-bold">Menu</h2>
-      <nav className="mt-2">
-        <ul className="space-y-2">
-          <li>
-            <a href="/" className="hover:text-gray-200">
-              Query per il sistema ESB
-            </a>
-          </li>
-          <li>
-            <a href="/about" className="hover:text-gray-200">
-              Query per il sistema COM
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  );
-}
+import Sidebar from "./components/Sidebar";
+import { useLocation } from "react-router-dom"; //serve per sapere in che pagina sono
 
 function App() {
   const dispatch = useDispatch();
+
+  const location = useLocation();
+
+  // Usa lo slice giusto in base al valore di system
   const {
     data: dataCapitoli,
     loading,
     error,
+    system,
   } = useSelector((state) => state.capitoli);
+
   const [showAddCapitoloForm, setShowAddCapitoloForm] = useState({
     id: null,
     operazione: null,
@@ -48,7 +31,15 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchCapitoli());
-  }, [dispatch]);
+  }, [dispatch, system]);
+
+  useEffect(() => {
+    if (location.pathname === "/SystemCOM") {
+      dispatch(setSystem("COM"));
+    } else {
+      dispatch(setSystem("ESB"));
+    }
+  }, [location]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -67,20 +58,22 @@ function App() {
   };
 
   const handleSave = (newCapitolo) => {
-    console.log("Saving new capitolo:", newCapitolo);
+    //    console.log("Saving new capitolo:", newCapitolo);
+
     dispatch(fetchCapitoli());
+
     setShowAddCapitoloForm({ id: null, operazione: null });
   };
 
   return (
     <>
       <Sidebar />
-      <div className="ml-48 p-4">
+      <div className="ml-64 p-4">
         {" "}
         {/* Aggiunta di margine per il pannello */}
         <div className="mb-4 p-0 bg-white text-left border-yellow-500 border-b-4 border-l-4">
           <h1 className="text-left text-3xl font-bold bg-gradient-to-r to-white from-yellow-500 ">
-            INDICE dei Capitoli
+            {`INDICE dei Capitoli ${system}`}
           </h1>
           <IndiceCapitoliParagrafi capitoli={dataCapitoli} />
         </div>

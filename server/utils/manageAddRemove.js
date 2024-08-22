@@ -53,7 +53,6 @@ function insertParagraph(queryDb, query) {
 }
 
 function rinominaId(capitoli) {
-  console.log("---------->>>>>>>>>>>>> rinomino");
   capitoli.forEach((capitolo, indexCapitolo) => {
     const nuovoCapitoloId = (indexCapitolo + 1).toString();
     capitolo.id = nuovoCapitoloId;
@@ -65,10 +64,31 @@ function rinominaId(capitoli) {
   });
 }
 
+function getTimestamp() {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
+    2,
+    "0"
+  )}-${String(now.getDate()).padStart(2, "0")} ${String(
+    now.getHours()
+  ).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}:${String(
+    now.getSeconds()
+  ).padStart(2, "0")}.${String(now.getMilliseconds()).padStart(3, "0")}`;
+}
+
+function getDbJson(system) {
+  if (system === "ESB") {
+    return "./assets/queryDb.json";
+  }
+  return "./assets/queryDbCOM.json";
+}
+
 module.exports = {
   removeChapter,
   removeParagraph,
   insertChapter,
   insertParagraph,
   rinominaId,
+  getTimestamp,
+  getDbJson,
 };

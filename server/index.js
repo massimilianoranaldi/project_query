@@ -8,6 +8,8 @@ const {
   insertChapter,
   insertParagraph,
   rinominaId,
+  getTimestamp,
+  getDbJson,
 } = require("./utils/manageAddRemove");
 
 //app.use(cors()); //permette alle risorse su un server web di essere richieste da un dominio diverso
@@ -42,8 +44,13 @@ app.use(express.json()); //uso questo middleware per gestoire i json
 //     ]
 // }
 
-app.post("/inserisciCapitolo", (req, res) => {
-  readFile("./assets/queryDb.json", (err, data) => {
+app.post("/inserisciCapitolo/:system", (req, res) => {
+  console.log(
+    getTimestamp(),
+    "inserisciCapitolo parametro sistema",
+    req.params.system
+  );
+  readFile(getDbJson(req.params.system), (err, data) => {
     if (err) {
       console.error("Errore durante la lettura del file:", err);
       res.status(500).json({
@@ -52,7 +59,6 @@ app.post("/inserisciCapitolo", (req, res) => {
         message: "KO - Errore durante la lettura del file",
       });
     }
-
     const query = req.body;
     let jsonString = [{}];
     if (data.length == 0) {
@@ -61,8 +67,6 @@ app.post("/inserisciCapitolo", (req, res) => {
       query.paragrafi[0].id = "1.1";
       jsonString = JSON.stringify(query, null, 2);
     } else {
-      console.log("DEBUG 2");
-
       const queryDb = Array.isArray(JSON.parse(data))
         ? JSON.parse(data)
         : [JSON.parse(data)]; //se c'è un solo elemento utilizza una variabile oggetto altrimenti un array
@@ -80,7 +84,7 @@ app.post("/inserisciCapitolo", (req, res) => {
     }
     console.log(">>>>>>>>>>>>>>>>>>>>      ", jsonString);
 
-    writeFile("./assets/queryDb.json", jsonString, "utf8", (err) => {
+    writeFile(getDbJson(req.params.system), jsonString, "utf8", (err) => {
       if (err) {
         console.error("Errore durante il salvataggio dei dati su file:", err);
         res
@@ -101,10 +105,13 @@ app.post("/inserisciCapitolo", (req, res) => {
 //http://localhost:3000/eliminaCapitoloParagrafo/1
 //http://localhost:3000/eliminaCapitoloParagrafo/1.1
 
-app.post("/eliminaCapitoloParagrafo/:id", (req, res) => {
-  console.log("-----------------------------------ELIMINA CAPITOLO");
-
-  readFile("./assets/queryDb.json", (err, data) => {
+app.post("/eliminaCapitoloParagrafo/:system/:id", (req, res) => {
+  console.log(
+    getTimestamp(),
+    "eliminaCapitoloParagrafo parametro sistema",
+    req.params.system
+  );
+  readFile(getDbJson(req.params.system), (err, data) => {
     let message = "";
     if (err) {
       console.error("Errore durante la lettura del file:", err);
@@ -149,7 +156,7 @@ app.post("/eliminaCapitoloParagrafo/:id", (req, res) => {
 
     console.log(">>> STAMPO IL CONTENUTO DELL'ARRAY : ", jsonString);
 
-    writeFile("./assets/queryDb.json", jsonString, "utf8", (err) => {
+    writeFile(getDbJson(req.params.system), jsonString, "utf8", (err) => {
       if (err) {
         console.error("Errore durante il salvataggio dei dati su file:", err);
         res
@@ -170,8 +177,14 @@ app.post("/eliminaCapitoloParagrafo/:id", (req, res) => {
 //QUESTA FUNZIONE RECUPERA OGGETTI
 //---------------------------------------------------------------------------------------------------------
 //http://localhost:3000/getCapitoliParagrafi
-app.get("/getCapitoliParagrafi", (req, res) => {
-  readFile("./assets/queryDb.json", (err, data) => {
+app.get("/getCapitoliParagrafi/:system", (req, res) => {
+  console.log(
+    getTimestamp(),
+    "getCapitoliParagrafi parametro sistema",
+    req.params.system,
+    getDbJson(req.params.system)
+  );
+  readFile(getDbJson(req.params.system), (err, data) => {
     if (err) {
       console.error("Errore durante la lettura del file:", err);
       res.status(500).json({
@@ -200,10 +213,15 @@ app.get("/getCapitoliParagrafi", (req, res) => {
 //---------------------------------------------------------------------------------------------------------
 //http://localhost:3000/modificaNomeCapitolo/1
 
-app.post("/modificaNomeCapitolo", (req, res) => {
+app.post("/modificaNomeCapitolo/:system", (req, res) => {
+  console.log(
+    getTimestamp(),
+    "eliminaCapitoloParagrafo parametro sistema",
+    req.params.system
+  );
   const { id, nuovoNomeCapitolo } = req.body; // Dati inviati nel corpo della richiesta
 
-  readFile("./assets/queryDb.json", (err, data) => {
+  readFile(getDbJson(req.params.system), (err, data) => {
     if (err) {
       console.error("Errore durante la lettura del file:", err);
       return res.status(500).json({
@@ -240,7 +258,7 @@ app.post("/modificaNomeCapitolo", (req, res) => {
 
     const jsonString = JSON.stringify(queryDb, null, 2);
 
-    writeFile("./assets/queryDb.json", jsonString, "utf8", (err) => {
+    writeFile(getDbJson(req.params.system), jsonString, "utf8", (err) => {
       if (err) {
         console.error("Errore durante il salvataggio dei dati su file:", err);
         return res.status(500).json({
@@ -259,7 +277,12 @@ app.post("/modificaNomeCapitolo", (req, res) => {
 });
 
 // MODIFICA I CAMPI DEL PARAGRAFO
-app.post("/modificaParagrafo", (req, res) => {
+app.post("/modificaParagrafo/:system", (req, res) => {
+  console.log(
+    getTimestamp(),
+    "eliminaCapitoloParagrafo parametro sistema",
+    req.params.system
+  );
   const { id, nuovoNomeParagrafo, nuovoCodicePlSql, nuovoOutPutSql } = req.body;
 
   if (
@@ -274,7 +297,7 @@ app.post("/modificaParagrafo", (req, res) => {
     });
   }
 
-  readFile("./assets/queryDb.json", (err, data) => {
+  readFile(getDbJson(req.params.system), (err, data) => {
     if (err) {
       console.error("Errore durante la lettura del file:", err);
       return res.status(500).json({
@@ -315,7 +338,7 @@ app.post("/modificaParagrafo", (req, res) => {
 
     const jsonString = JSON.stringify(queryDb, null, 2);
 
-    writeFile("./assets/queryDb.json", jsonString, "utf8", (err) => {
+    writeFile(getDbJson(req.params.system), jsonString, "utf8", (err) => {
       if (err) {
         console.error("Errore durante il salvataggio dei dati su file:", err);
         return res.status(500).json({
@@ -335,7 +358,12 @@ app.post("/modificaParagrafo", (req, res) => {
 
 //INSERISCE UN INSIEME DI CAPITOLI E PARAGRAFI
 
-app.post("/caricaCapitoli", (req, res) => {
+app.post("/caricaCapitoli:system", (req, res) => {
+  console.log(
+    getTimestamp(),
+    "eliminaCapitoloParagrafo parametro sistema",
+    req.params.system
+  );
   const capitoli = req.body;
 
   // Rinomina gli ID dei capitoli e paragrafi
@@ -345,7 +373,7 @@ app.post("/caricaCapitoli", (req, res) => {
   const jsonString = JSON.stringify(capitoli, null, 2);
 
   // Sovrascrivi il contenuto del file con i nuovi dati
-  writeFile("./assets/queryDb.json", jsonString, "utf8", (err) => {
+  writeFile(getDbJson(req.params.system), jsonString, "utf8", (err) => {
     if (err) {
       console.error("Errore durante il salvataggio dei dati su file:", err);
       return res.status(500).json({
@@ -353,7 +381,7 @@ app.post("/caricaCapitoli", (req, res) => {
         message: "Errore durante il salvataggio dei dati",
       });
     } else {
-      console.log("Dati salvati correttamente su queryDb.json");
+      console.log("Dati salvati correttamente su file db.json");
       return res.status(200).json({
         success: true,
         data: capitoli,

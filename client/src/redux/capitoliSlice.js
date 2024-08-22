@@ -3,17 +3,32 @@ import axios from "axios";
 
 //const API_BASE_URL = "http://localhost:3000";
 
-//const API_BASE_URL = "https://project-query.onrender.com";
+//const API_BASE_URL = "https://project-query.onrender.com"; (server)
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+function getTimestamp() {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
+    2,
+    "0"
+  )}-${String(now.getDate()).padStart(2, "0")} ${String(
+    now.getHours()
+  ).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}:${String(
+    now.getSeconds()
+  ).padStart(2, "0")}.${String(now.getMilliseconds()).padStart(3, "0")}`;
+}
 
 //questa funzione viene utilizzata per la creazione di task asincroni al di fuori dello slice (es. chiamate api)
 export const fetchCapitoli = createAsyncThunk(
   "capitoli/fetchCapitoli",
-  async () => {
+  async (_, { getState }) => {
+    const system = getState().capitoli.system;
+    const url = `${API_BASE_URL}/getCapitoliParagrafi/${system}`;
+    console.log(getTimestamp(), "client : ", url);
     const response = await axios.get(
       //"http://localhost:3000/getCapitoliParagrafi"
-      `${API_BASE_URL}/getCapitoliParagrafi`
+      url
     );
     return response.data.data;
   }
@@ -22,12 +37,18 @@ export const fetchCapitoli = createAsyncThunk(
 // Funzione per aggiungere un paragrafo NEW
 export const addParagrafo = createAsyncThunk(
   "capitoli/addParagrafo",
-  async (payload) => {
+
+  async (payload, { getState }) => {
+    const system = getState().capitoli.system;
+    const url = `${API_BASE_URL}/inserisciCapitolo/${system}`;
+    console.log(getTimestamp(), "client : ", url);
+
     const response = await axios.post(
       //"http://localhost:3000/inserisciCapitolo",
-      `${API_BASE_URL}/inserisciCapitolo`,
+      url,
       payload
     );
+
     return response.data.data; // Assumi che il server ritorni i dati aggiornati
   }
 );
@@ -35,10 +56,14 @@ export const addParagrafo = createAsyncThunk(
 // Funzione per modificare capitolo
 export const modificaCapitolo = createAsyncThunk(
   "capitoli/modificaCapitolo",
-  async (payload) => {
+  async (payload, { getState }) => {
+    const system = getState().capitoli.system;
+    const url = `${API_BASE_URL}/modificaNomeCapitolo/${system}`;
+    console.log(getTimestamp(), "client : ", url);
+
     const response = await axios.post(
       //"http://localhost:3000/modificaNomeCapitolo",
-      `${API_BASE_URL}/modificaNomeCapitolo`,
+      url,
       payload
     );
     return response.data.data; // Assumi che il server ritorni i dati aggiornati
@@ -48,10 +73,14 @@ export const modificaCapitolo = createAsyncThunk(
 // Funzione per modificare paragrafo
 export const modificaParagrafo = createAsyncThunk(
   "capitoli/modificaParagrafo",
-  async (payload) => {
+  async (payload, { getState }) => {
+    const system = getState().capitoli.system;
+    const url = `${API_BASE_URL}/modificaParagrafo/${system}`;
+    console.log(getTimestamp(), "client : ", url);
+
     const response = await axios.post(
       //"http://localhost:3000/modificaParagrafo",
-      `${API_BASE_URL}/modificaParagrafo`,
+      url,
       payload
     );
     return response.data.data; // Assumi che il server ritorni i dati aggiornati
@@ -60,9 +89,12 @@ export const modificaParagrafo = createAsyncThunk(
 // Azione asincrona per eliminare un paragrafo
 export const eliminaParagrafo = createAsyncThunk(
   "capitoli/eliminaParagrafo",
-  async (objectId, { dispatch, rejectWithValue }) => {
+  async (objectId, { getState, dispatch, rejectWithValue }) => {
     try {
-      const url = `${API_BASE_URL}/eliminaCapitoloParagrafo/${objectId}`;
+      const system = getState().capitoli.system;
+      const url = `${API_BASE_URL}/eliminaCapitoloParagrafo/${system}/${objectId}`;
+      console.log(getTimestamp(), "client : ", url);
+
       await axios.post(url);
       // Dopo aver eliminato il paragrafo, recupera di nuovo i capitoli
       dispatch(fetchCapitoli());
@@ -74,11 +106,12 @@ export const eliminaParagrafo = createAsyncThunk(
 
 export const importCapitoli = createAsyncThunk(
   "capitoli/importCapitoli",
-  async (jsonData) => {
-    const response = await axios.post(
-      `${API_BASE_URL}/caricaCapitoli`,
-      jsonData
-    );
+  async (jsonData, { getState }) => {
+    const system = getState().capitoli.system;
+    const url = `${API_BASE_URL}/caricaCapitoli/${system}`;
+    console.log(getTimestamp(), "client : ", url);
+
+    const response = await axios.post(url, jsonData);
     return response.data.data;
   }
 );
@@ -90,8 +123,13 @@ const capitoliSlice = createSlice({
     data: [],
     loading: false,
     error: null,
+    system: "default", // Inizializza il sistema a "ESB"
   },
-  reducers: {}, //usata se le azioni sono sincrone e svlote nello slice
+  reducers: {
+    setSystem: (state, action) => {
+      state.system = action.payload; // Aggiorna il valore di system
+    },
+  }, //usata se le azioni sono sincrone e svlote nello slice
   extraReducers: (builder) => {
     //usata se le azioni sono a-sincrone e non svlote nello slice
     builder
@@ -193,5 +231,5 @@ const capitoliSlice = createSlice({
       });
   },
 });
-
 export default capitoliSlice.reducer;
+export const { setSystem } = capitoliSlice.actions;
