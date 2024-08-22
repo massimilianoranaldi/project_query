@@ -11,6 +11,10 @@ const {
   getTimestamp,
   getDbJson,
 } = require("./utils/manageAddRemove");
+const {
+  uploadFileToGitHub,
+  downloadFileFromGitHub,
+} = require("./utils/manageGit");
 
 //app.use(cors()); //permette alle risorse su un server web di essere richieste da un dominio diverso
 
@@ -216,7 +220,7 @@ app.get("/getCapitoliParagrafi/:system", (req, res) => {
 app.post("/modificaNomeCapitolo/:system", (req, res) => {
   console.log(
     getTimestamp(),
-    "eliminaCapitoloParagrafo parametro sistema",
+    "modificaNomeCapitolo parametro sistema",
     req.params.system
   );
   const { id, nuovoNomeCapitolo } = req.body; // Dati inviati nel corpo della richiesta
@@ -280,7 +284,7 @@ app.post("/modificaNomeCapitolo/:system", (req, res) => {
 app.post("/modificaParagrafo/:system", (req, res) => {
   console.log(
     getTimestamp(),
-    "eliminaCapitoloParagrafo parametro sistema",
+    "modificaParagrafo parametro sistema",
     req.params.system
   );
   const { id, nuovoNomeParagrafo, nuovoCodicePlSql, nuovoOutPutSql } = req.body;
@@ -361,7 +365,7 @@ app.post("/modificaParagrafo/:system", (req, res) => {
 app.post("/caricaCapitoli/:system", (req, res) => {
   console.log(
     getTimestamp(),
-    "eliminaCapitoloParagrafo parametro sistema",
+    "caricaCapitoli parametro sistema",
     req.params.system
   );
   const capitoli = req.body;
@@ -389,6 +393,24 @@ app.post("/caricaCapitoli/:system", (req, res) => {
       });
     }
   });
+});
+
+app.post("/upload", async (req, res) => {
+  try {
+    await uploadFileToGitHub();
+    res.status(200).send("File uploaded and changes pushed to Git.");
+  } catch (error) {
+    res.status(500).send("Failed to upload file to Git.");
+  }
+});
+
+app.post("/download", async (req, res) => {
+  try {
+    await downloadFileFromGitHub();
+    res.status(200).send("File uploaded and changes pushed to Git.");
+  } catch (error) {
+    res.status(500).send("Failed to upload file to Git.");
+  }
 });
 
 app.listen(3000, () => {
