@@ -1,13 +1,15 @@
+require("dotenv").config({ path: ".env.local.server" }); // Carica le variabili di ambiente dal file .env
 const axios = require("axios");
 const fs = require("fs");
 const path = require("path");
 
-const GITHUB_TOKEN = "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"; // Token di accesso personale
-const REPO_OWNER = "massimilianoranaldi"; // Proprietario del repository
-const REPO_NAME = "DATABASE-JSON"; // Nome del repository
-const BRANCH = "main"; // Nome del branch
-const LOCAL_FILE_PATH = path.join(__dirname, "../assets", "queryDb.json");
-const REMOTE_FILE_PATH = "backup/queryDb.json"; // Percorso nel repository
+// Ottieni le variabili di ambiente
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const REPO_OWNER = process.env.REPO_OWNER;
+const REPO_NAME = process.env.REPO_NAME;
+const BRANCH = process.env.BRANCH || "main"; // Nome del branch
+const LOCAL_FILE_PATH = path.join(__dirname, process.env.LOCAL_FILE_PATH);
+const REMOTE_FILE_PATH = process.env.REMOTE_FILE_PATH;
 
 async function uploadFileToGitHub() {
   try {
