@@ -112,6 +112,7 @@ export const importCapitoli = createAsyncThunk(
     console.log(getTimestamp(), "client : ", url);
 
     const response = await axios.post(url, jsonData);
+
     return response.data.data;
   }
 );

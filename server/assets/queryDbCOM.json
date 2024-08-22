@@ -1,37 +1,13 @@
 [
   {
     "id": "1",
-    "nomeCapitolo": "Inserisci il nome del Capitolo",
+    "nomeCapitolo": "REPORT BONFANTI",
     "paragrafi": [
       {
         "id": "1.1",
-        "nomeParagrafo": "mod",
-        "codicePlSql": "mod",
-        "outPutSql": "mod"
-      }
-    ]
-  },
-  {
-    "id": "2",
-    "nomeCapitolo": "Inserisci il nome del Capitolo",
-    "paragrafi": [
-      {
-        "id": "2.1",
-        "nomeParagrafo": "Inserisci il nome del Paragrafo",
-        "codicePlSql": "Scrivi qui il codice PLSQL",
-        "outPutSql": "Incolla qui la tua tabella"
-      }
-    ]
-  },
-  {
-    "id": "3",
-    "nomeCapitolo": "Inserisci il nome del Capitoloffffffd",
-    "paragrafi": [
-      {
-        "id": "3.1",
-        "nomeParagrafo": "Inserisci il nome del Paragrafo",
-        "codicePlSql": "Scrivi qui il codice PLSQL",
-        "outPutSql": "Incolla qui la tua tabella"
+        "nomeParagrafo": "Estrazione Dati",
+        "codicePlSql": "-- fine del report (tot circa 50k)\nSELECT count(*) FROM report_com_new where id = (select max(id) from report_com_new);\n\n-- Estrazione dettaglio\nSELECT csv_text FROM report_com_new where id = (select max(id) from report_com_new);",
+        "outPutSql": "REQUEST ID\tORDER ID CRM\tNAME\tSTATUS\tTS START\tTS END\tAGING (DAYS)\tTIPO\tSOTTOTIPO\tCHANNEL\tSTATO ORDINE CRM\tCOUNTER ITEMS CRM INVIATO\tFLAG CVP\tFLAG WCALL\tWIRELESS\tCPE FONIA\tBUNDLE\tBASKET\tOFFICE SMART\tCTRB\tMICROSOFT\tGREENWICH MNP\tGREENWICH NO MNP\tNO GREENWICH MNP\tNO GREENWICH NO MNP\tCPE LOGISTIC\tOUTCOME\tAGING (DAYS)\tOUTCOME\tAGING (DAYS)\tOUTCOME\tAGING (DAYS)\tLOGISTIC OUTCOME\tLOGISTIC AGING (DAYS)\tSERVICE ORDER SOM OUTCOME\tSERVICE ORDER SOM AGING (DAYS)\tMNP OUTCOME\tMNP AGING (DAYS)\tMNP DCO CRM\tMNP DCO MOG\tMNP RICHIESTE ACCETTATE\tMNP RICHIESTE SCARTATE\tCHANGE NUMBER MNP OUTCOME\tCHANGE NUMBER MNP MAX AGING FAILED\tFAILS COM CRM\tFAILS COM IGP\t FAILS COM BILLING\tFAILS COM OTHERS\tFAILS ON BILLING\tMISSING ON BILLING\tBATCH CLUSTERIZATION\n929410\tN/A\tMnpDonor\tWP\t01/08/2024 20:46\tN/A\t20\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\t1\t0\t0\t0\t0\t0\t0\t0\t1\t0\t0\t0\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\t0\t0\t0\t0\t0\t0\tTO CLUSTERIZE\n929409\tN/A\tMnpDonor\tWP\t01/08/2024 20:46\tN/A\t20\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\t1\t0\t0\t0\t0\t0\t0\t0\t1\t0\t0\t0\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\tN/A\t0\t0\t0\t0\t0\t0\tTO CLUSTERIZE"
       }
     ]
   }

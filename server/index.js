@@ -358,7 +358,7 @@ app.post("/modificaParagrafo/:system", (req, res) => {
 
 //INSERISCE UN INSIEME DI CAPITOLI E PARAGRAFI
 
-app.post("/caricaCapitoli:system", (req, res) => {
+app.post("/caricaCapitoli/:system", (req, res) => {
   console.log(
     getTimestamp(),
     "eliminaCapitoloParagrafo parametro sistema",
