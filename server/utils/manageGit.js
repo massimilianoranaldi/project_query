@@ -1,4 +1,4 @@
-require("dotenv").config({ path: ".env.local.server" }); // Carica le variabili di ambiente dal file .env
+require("dotenv").config(); // Carica le variabili di ambiente dal file .env
 const axios = require("axios");
 const fs = require("fs");
 const path = require("path");
