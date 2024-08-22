@@ -33,13 +33,15 @@ async function uploadFileToGitHub() {
       )
       .catch(() => ({})); // Se il file non esiste, il catch evita di lanciare un errore
 
+    console.log("Latest SHA:", latestSha);
+
     // Prepara la richiesta per aggiornare il file
     const response = await axios.put(
       `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${REMOTE_FILE_PATH}`,
       {
         message: "Add or update queryDb.json file",
         content: encodedContent,
-        sha: latestSha, // Solo se il file esiste già
+        ...(latestSha && { sha: latestSha }), // Aggiungi solo se `latestSha` è presente
         branch: BRANCH,
       },
       {
@@ -50,8 +52,8 @@ async function uploadFileToGitHub() {
       }
     );
 
-    console.log("File uploaded successfully.");
-    console.log(response.data);
+    console.log("Status Code:", response.status);
+    console.log("Response Data:", response.data);
   } catch (error) {
     console.error(
       "Error uploading file to GitHub:",
