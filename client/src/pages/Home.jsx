@@ -1,18 +1,7 @@
 import Sidebar from "../components/Sidebar";
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { fetchCapitoli } from "../redux/capitoliSlice";
 
 function Home() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    // Precarica i dati per SystemESB
-    dispatch(fetchCapitoli("ESB"));
-
-    // Precarica i dati per SystemCOM
-    dispatch(fetchCapitoli("COM"));
-  }, [dispatch]);
   return (
     <>
       <Sidebar />

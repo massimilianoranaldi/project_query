@@ -16,8 +16,10 @@ const {
   downloadFileFromGitHub,
 } = require("./utils/manageGit");
 
+//---------------------------------------------------------------------------------------------------------
+// CONFIGURAZIONE MIDDLEWARE
+//---------------------------------------------------------------------------------------------------------
 //app.use(cors()); //permette alle risorse su un server web di essere richieste da un dominio diverso
-
 app.use(
   cors({
     origin: "*", // Permette tutte le origini
@@ -28,204 +30,72 @@ app.use(
 // Configura body-parser per accettare payloads più grandi
 app.use(express.json({ limit: "50mb" })); // Aumenta il limite per JSON
 app.use(express.urlencoded({ limit: "50mb", extended: true })); // Aumenta il limite per URL-encoded
-
 app.use(express.json()); //uso questo middleware per gestoire i json
 
-//QUESTA FUNZIONE INSERISCE UN OGGETTO NELL'ARRAY : O UN CAPITOLO O UN PARAGRAFO
 //---------------------------------------------------------------------------------------------------------
-
-// http://localhost:3000/inserisciCapitolo
-// {
-//     "id": "2",
-//     "nomeCapitolo": "",
-//     "paragrafi": [
-//         {
-//             "id": "999",
-//             "nomeParagrafo": "",
-//             "codicePlSql": "select * from dual where pippo='b'",
-//             "outPutSql": ""
-//         }
-//     ]
-// }
-
-app.post("/inserisciCapitolo/:system", (req, res) => {
-  console.log(
-    getTimestamp(),
-    "inserisciCapitolo parametro sistema",
-    req.params.system
-  );
-  readFile(getDbJson(req.params.system), (err, data) => {
-    if (err) {
-      console.error("Errore durante la lettura del file:", err);
-      res.status(500).json({
-        success: false,
-        data: "",
-        message: "KO - Errore durante la lettura del file",
-      });
-    }
-    const query = req.body;
-    let jsonString = [{}];
-    if (data.length == 0) {
-      console.log("DEBUG 1");
-      query.id = "1";
-      query.paragrafi[0].id = "1.1";
-      jsonString = JSON.stringify(query, null, 2);
-    } else {
-      const queryDb = Array.isArray(JSON.parse(data))
-        ? JSON.parse(data)
-        : [JSON.parse(data)]; //se c'è un solo elemento utilizza una variabile oggetto altrimenti un array
-
-      console.log("---------------------", queryDb);
-      const capitolo = queryDb.find((c) => c.id === query.id); // è un riferimento a queryDb quindi se modifico capitolo si modifica anche queryDb
-
-      if (!capitolo) {
-        insertChapter(queryDb, query);
-      } else {
-        insertParagraph(queryDb, query);
-      }
-
-      jsonString = JSON.stringify(queryDb, null, 2);
-    }
-    console.log(">>>>>>>>>>>>>>>>>>>>      ", jsonString);
-
-    writeFile(getDbJson(req.params.system), jsonString, "utf8", (err) => {
-      if (err) {
-        console.error("Errore durante il salvataggio dei dati su file:", err);
-        res
-          .status(500)
-          .json({ message: "Errore durante il salvataggio dei dati" });
-      } else {
-        console.log("Dati salvati correttamente su data.json");
-      }
-    });
-    res
-      .status(200)
-      .json({ success: true, data: JSON.parse(jsonString), message: "OK" });
-  });
-});
-
-//QUESTA FUNZIONE ELIMINA UN ELEMENTO DALL'ARRAY O CAPITOLO O PARAGRAFO
+// CONFIGURAZIONE API
 //---------------------------------------------------------------------------------------------------------
-//http://localhost:3000/eliminaCapitoloParagrafo/1
-//http://localhost:3000/eliminaCapitoloParagrafo/1.1
-
-app.post("/eliminaCapitoloParagrafo/:system/:id", (req, res) => {
-  console.log(
-    getTimestamp(),
-    "eliminaCapitoloParagrafo parametro sistema",
-    req.params.system
-  );
-  readFile(getDbJson(req.params.system), (err, data) => {
-    let message = "";
-    if (err) {
-      console.error("Errore durante la lettura del file:", err);
-      res.status(500).json({
-        success: false,
-        data: "",
-        message: "KO - Errore durante la lettura del file",
-      });
-      return;
-    }
-
-    if (data.length == 0) {
-      res.status(200).json({
-        success: true,
-        data: null,
-        message: "OK - Nessun Record da cancellare",
-      });
-      return;
-    }
-
-    const { id } = req.params;
-
-    console.log(">>> ELIMINO L'OGGETTO [", id, "]");
-
-    const queryDb = Array.isArray(JSON.parse(data))
-      ? JSON.parse(data)
-      : [JSON.parse(data)]; //se c'è un solo elemento utilizza una variabile oggetto altrimenti un array
-
-    console.log(">>> STAMPO IL CONTENUTO DEL FILE : ", queryDb);
-
-    //gestione rimozione capitolo o paragrafo
-    if (removeChapter(queryDb, id)) {
-      message = "OK - Elemento capitolo cancellato";
-    } else if (removeParagraph(queryDb, id)) {
-      // Rimuovi paragrafo
-      message = "OK - Elemento paragrafo cancellato";
-    } else {
-      message = "OK - Elemento non trovato";
-    }
-
-    jsonString = JSON.stringify(queryDb, null, 2);
-
-    console.log(">>> STAMPO IL CONTENUTO DELL'ARRAY : ", jsonString);
-
-    writeFile(getDbJson(req.params.system), jsonString, "utf8", (err) => {
-      if (err) {
-        console.error("Errore durante il salvataggio dei dati su file:", err);
-        res
-          .status(500)
-          .json({ message: "Errore durante il salvataggio dei dati" });
-      } else {
-        console.log("Dati salvati correttamente su data.json");
-      }
-    });
-    res.status(200).json({
-      success: true,
-      data: JSON.parse(jsonString),
-      message: message,
-    });
-  });
-});
-
-//QUESTA FUNZIONE RECUPERA OGGETTI
+//QUESTA FUNZIONE RECUPERA OGGETTI (download da git)
 //---------------------------------------------------------------------------------------------------------
 //http://localhost:3000/getCapitoliParagrafi
-app.get("/getCapitoliParagrafi/:system", (req, res) => {
+app.get("/getCapitoliParagrafi/:system", async (req, res) => {
   console.log(
     getTimestamp(),
     "getCapitoliParagrafi parametro sistema",
     req.params.system,
     getDbJson(req.params.system)
   );
-  readFile(getDbJson(req.params.system), (err, data) => {
-    if (err) {
-      console.error("Errore durante la lettura del file:", err);
-      res.status(500).json({
-        success: false,
-        data: "",
-        message: "KO - Errore durante la lettura del file",
-      });
-    }
+  try {
+    // Scarica il file dal repository GitHub prima di leggerlo
+    //await downloadFileFromGitHub(req.params.system);
+    //recupero il file dal repository se diverso da quello attuale
 
-    if (data.length == 0) {
-      res.status(200).json({
-        success: true,
-        data: null,
-        message: "OK - Nessun Record da recuperare",
-      });
-      return;
-    }
+    readFile(getDbJson(req.params.system), (err, data) => {
+      if (err) {
+        console.error("Errore durante la lettura del file:", err);
+        res.status(500).json({
+          success: false,
+          data: "",
+          message: "KO - Errore durante la lettura del file",
+        });
+      }
 
-    res
-      .status(200)
-      .json({ success: true, data: JSON.parse(data), message: "OK" });
-  });
+      if (data.length == 0) {
+        res.status(200).json({
+          success: true,
+          data: null,
+          message: "OK - Nessun Record da recuperare",
+        });
+        return;
+      }
+
+      res
+        .status(200)
+        .json({ success: true, data: JSON.parse(data), message: "OK" });
+    });
+  } catch (error) {
+    console.error("Errore durante il download del file:", error);
+    res.status(500).json({
+      success: false,
+      data: "",
+      message: "KO - Errore durante il download del file",
+    });
+  }
 });
 
-//QUESTA FUNZIONE MODIFICA TITOLO CAPITOLO
+//QUESTA FUNZIONE MODIFICA TITOLO CAPITOLO (gestione scrittura su git)
 //---------------------------------------------------------------------------------------------------------
 //http://localhost:3000/modificaNomeCapitolo/1
-
-app.post("/modificaNomeCapitolo/:system", (req, res) => {
+app.post("/modificaNomeCapitolo/:system", async (req, res) => {
   console.log(
     getTimestamp(),
     "modificaNomeCapitolo parametro sistema",
     req.params.system
   );
+
   const { id, nuovoNomeCapitolo } = req.body; // Dati inviati nel corpo della richiesta
 
-  readFile(getDbJson(req.params.system), (err, data) => {
+  readFile(getDbJson(req.params.system), async (err, data) => {
     if (err) {
       console.error("Errore durante la lettura del file:", err);
       return res.status(500).json({
@@ -262,7 +132,7 @@ app.post("/modificaNomeCapitolo/:system", (req, res) => {
 
     const jsonString = JSON.stringify(queryDb, null, 2);
 
-    writeFile(getDbJson(req.params.system), jsonString, "utf8", (err) => {
+    writeFile(getDbJson(req.params.system), jsonString, "utf8", async (err) => {
       if (err) {
         console.error("Errore durante il salvataggio dei dati su file:", err);
         return res.status(500).json({
@@ -271,22 +141,41 @@ app.post("/modificaNomeCapitolo/:system", (req, res) => {
         });
       }
 
-      res.status(200).json({
-        success: true,
-        data: JSON.parse(jsonString),
-        message: "Nome del capitolo aggiornato con successo",
-      });
+      try {
+        // Upload del file su GitHub
+        await uploadFileToGitHub(req.params.system);
+        console.log("File caricato su GitHub con successo");
+
+        res.status(200).json({
+          success: true,
+          data: JSON.parse(jsonString),
+          message:
+            "Nome del capitolo aggiornato con successo e file caricato su GitHub",
+        });
+      } catch (uploadError) {
+        console.error(
+          "Errore durante l'upload del file su GitHub:",
+          uploadError
+        );
+        res.status(500).json({
+          success: false,
+          message:
+            "Nome del capitolo aggiornato ma errore durante l'upload del file su GitHub",
+        });
+      }
     });
   });
 });
 
-// MODIFICA I CAMPI DEL PARAGRAFO
-app.post("/modificaParagrafo/:system", (req, res) => {
+// MODIFICA I CAMPI DEL PARAGRAFO (gestione scrittura su git)
+//---------------------------------------------------------------------------------------------------------
+app.post("/modificaParagrafo/:system", async (req, res) => {
   console.log(
     getTimestamp(),
     "modificaParagrafo parametro sistema",
     req.params.system
   );
+
   const { id, nuovoNomeParagrafo, nuovoCodicePlSql, nuovoOutPutSql } = req.body;
 
   if (
@@ -301,7 +190,7 @@ app.post("/modificaParagrafo/:system", (req, res) => {
     });
   }
 
-  readFile(getDbJson(req.params.system), (err, data) => {
+  readFile(getDbJson(req.params.system), async (err, data) => {
     if (err) {
       console.error("Errore durante la lettura del file:", err);
       return res.status(500).json({
@@ -342,7 +231,7 @@ app.post("/modificaParagrafo/:system", (req, res) => {
 
     const jsonString = JSON.stringify(queryDb, null, 2);
 
-    writeFile(getDbJson(req.params.system), jsonString, "utf8", (err) => {
+    writeFile(getDbJson(req.params.system), jsonString, "utf8", async (err) => {
       if (err) {
         console.error("Errore durante il salvataggio dei dati su file:", err);
         return res.status(500).json({
@@ -351,18 +240,203 @@ app.post("/modificaParagrafo/:system", (req, res) => {
         });
       }
 
-      res.status(200).json({
-        success: true,
-        data: JSON.parse(jsonString),
-        message: "Paragrafo aggiornato con successo",
-      });
+      try {
+        // Upload del file su GitHub
+        await uploadFileToGitHub(req.params.system);
+        console.log("File caricato su GitHub con successo");
+
+        res.status(200).json({
+          success: true,
+          data: JSON.parse(jsonString),
+          message:
+            "Paragrafo aggiornato con successo e file caricato su GitHub",
+        });
+      } catch (uploadError) {
+        console.error(
+          "Errore durante l'upload del file su GitHub:",
+          uploadError
+        );
+        res.status(500).json({
+          success: false,
+          message:
+            "Paragrafo aggiornato ma errore durante l'upload del file su GitHub",
+        });
+      }
     });
   });
 });
 
-//INSERISCE UN INSIEME DI CAPITOLI E PARAGRAFI
+//QUESTA FUNZIONE INSERISCE UN OGGETTO NELL'ARRAY : O UN CAPITOLO O UN PARAGRAFO (gestione scrittura su git)
+//---------------------------------------------------------------------------------------------------------
+// http://localhost:3000/inserisciCapitolo
+// {
+//     "id": "2",
+//     "nomeCapitolo": "",
+//     "paragrafi": [
+//         {
+//             "id": "999",
+//             "nomeParagrafo": "",
+//             "codicePlSql": "select * from dual where pippo='b'",
+//             "outPutSql": ""
+//         }
+//     ]
+app.post("/inserisciCapitolo/:system", async (req, res) => {
+  console.log(
+    getTimestamp(),
+    "inserisciCapitolo parametro sistema",
+    req.params.system
+  );
 
-app.post("/caricaCapitoli/:system", (req, res) => {
+  readFile(getDbJson(req.params.system), async (err, data) => {
+    if (err) {
+      console.error("Errore durante la lettura del file:", err);
+      return res.status(500).json({
+        success: false,
+        data: "",
+        message: "KO - Errore durante la lettura del file",
+      });
+    }
+
+    const query = req.body;
+    let jsonString = [{}];
+
+    if (data.length == 0) {
+      query.id = "1";
+      query.paragrafi[0].id = "1.1";
+      jsonString = JSON.stringify(query, null, 2);
+    } else {
+      const queryDb = Array.isArray(JSON.parse(data))
+        ? JSON.parse(data)
+        : [JSON.parse(data)];
+
+      const capitolo = queryDb.find((c) => c.id === query.id);
+
+      if (!capitolo) {
+        insertChapter(queryDb, query);
+      } else {
+        insertParagraph(queryDb, query);
+      }
+
+      jsonString = JSON.stringify(queryDb, null, 2);
+    }
+
+    writeFile(getDbJson(req.params.system), jsonString, "utf8", async (err) => {
+      if (err) {
+        console.error("Errore durante il salvataggio dei dati su file:", err);
+        return res.status(500).json({
+          message: "Errore durante il salvataggio dei dati",
+        });
+      }
+
+      try {
+        // Upload del file su GitHub
+        await uploadFileToGitHub(req.params.system);
+        console.log("File caricato su GitHub con successo");
+
+        res.status(200).json({
+          success: true,
+          data: JSON.parse(jsonString),
+          message: "Capitolo inserito con successo e file caricato su GitHub",
+        });
+      } catch (uploadError) {
+        console.error(
+          "Errore durante l'upload del file su GitHub:",
+          uploadError
+        );
+        res.status(500).json({
+          success: false,
+          message:
+            "Capitolo inserito ma errore durante l'upload del file su GitHub",
+        });
+      }
+    });
+  });
+});
+
+//QUESTA FUNZIONE ELIMINA UN ELEMENTO DALL'ARRAY O CAPITOLO O PARAGRAFO (gestione scrittura su git)
+//---------------------------------------------------------------------------------------------------------
+//http://localhost:3000/eliminaCapitoloParagrafo/1
+//http://localhost:3000/eliminaCapitoloParagrafo/1.1
+app.post("/eliminaCapitoloParagrafo/:system/:id", async (req, res) => {
+  console.log(
+    getTimestamp(),
+    "eliminaCapitoloParagrafo parametro sistema",
+    req.params.system
+  );
+
+  readFile(getDbJson(req.params.system), async (err, data) => {
+    let message = "";
+    if (err) {
+      console.error("Errore durante la lettura del file:", err);
+      return res.status(500).json({
+        success: false,
+        data: "",
+        message: "KO - Errore durante la lettura del file",
+      });
+    }
+
+    if (data.length == 0) {
+      return res.status(200).json({
+        success: true,
+        data: null,
+        message: "OK - Nessun Record da cancellare",
+      });
+    }
+
+    const { id } = req.params;
+
+    console.log(">>> ELIMINO L'OGGETTO [", id, "]");
+
+    const queryDb = Array.isArray(JSON.parse(data))
+      ? JSON.parse(data)
+      : [JSON.parse(data)];
+
+    // Gestione rimozione capitolo o paragrafo
+    if (removeChapter(queryDb, id)) {
+      message = "OK - Elemento capitolo cancellato";
+    } else if (removeParagraph(queryDb, id)) {
+      message = "OK - Elemento paragrafo cancellato";
+    } else {
+      message = "OK - Elemento non trovato";
+    }
+
+    const jsonString = JSON.stringify(queryDb, null, 2);
+
+    writeFile(getDbJson(req.params.system), jsonString, "utf8", async (err) => {
+      if (err) {
+        console.error("Errore durante il salvataggio dei dati su file:", err);
+        return res
+          .status(500)
+          .json({ message: "Errore durante il salvataggio dei dati" });
+      }
+
+      try {
+        // Upload del file su GitHub
+        await uploadFileToGitHub(req.params.system);
+        console.log("File caricato su GitHub con successo");
+
+        res.status(200).json({
+          success: true,
+          data: JSON.parse(jsonString),
+          message: message + " e file caricato su GitHub",
+        });
+      } catch (uploadError) {
+        console.error(
+          "Errore durante l'upload del file su GitHub:",
+          uploadError
+        );
+        res.status(500).json({
+          success: false,
+          message: message + " ma errore durante l'upload del file su GitHub",
+        });
+      }
+    });
+  });
+});
+
+//SCRIVE IN UN FILE TUTTI I CAPITOLI PRESENTI DEL queryDB (gestione scrittura su git)
+//---------------------------------------------------------------------------------------------------------
+app.post("/caricaCapitoli/:system", async (req, res) => {
   console.log(
     getTimestamp(),
     "caricaCapitoli parametro sistema",
@@ -377,7 +451,7 @@ app.post("/caricaCapitoli/:system", (req, res) => {
   const jsonString = JSON.stringify(capitoli, null, 2);
 
   // Sovrascrivi il contenuto del file con i nuovi dati
-  writeFile(getDbJson(req.params.system), jsonString, "utf8", (err) => {
+  writeFile(getDbJson(req.params.system), jsonString, "utf8", async (err) => {
     if (err) {
       console.error("Errore durante il salvataggio dei dati su file:", err);
       return res.status(500).json({
@@ -386,15 +460,35 @@ app.post("/caricaCapitoli/:system", (req, res) => {
       });
     } else {
       console.log("Dati salvati correttamente su file db.json");
-      return res.status(200).json({
-        success: true,
-        data: capitoli,
-        message: "Dati caricati e salvati con successo",
-      });
+
+      try {
+        // Upload del file su GitHub
+        await uploadFileToGitHub(req.params.system);
+        console.log("File caricato su GitHub con successo");
+
+        return res.status(200).json({
+          success: true,
+          data: capitoli,
+          message:
+            "Dati caricati, salvati e file caricato su GitHub con successo",
+        });
+      } catch (uploadError) {
+        console.error(
+          "Errore durante l'upload del file su GitHub:",
+          uploadError
+        );
+        return res.status(500).json({
+          success: false,
+          message:
+            "Dati salvati localmente, ma errore durante l'upload del file su GitHub",
+        });
+      }
     }
   });
 });
 
+//UPLOAD TO GIT
+//---------------------------------------------------------------------------------------------------------
 app.post("/uploadToGit/:system", async (req, res) => {
   try {
     console.log(
@@ -408,7 +502,8 @@ app.post("/uploadToGit/:system", async (req, res) => {
     res.status(500).send("Failed to upload file to Git.");
   }
 });
-
+//DOWNLOAD FROM GIT
+//---------------------------------------------------------------------------------------------------------
 app.post("/downloadFromGit/:system", async (req, res) => {
   try {
     console.log(

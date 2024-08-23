@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import IndiceCapitoliParagrafi from "./components/IndiceCapitoliParagrafi";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCapitoli, setSystem, resetCapitoli } from "./redux/capitoliSlice";
+import {
+  fetchCapitoli,
+  setSystem,
+  resetCapitoli,
+  downloadFromGit,
+} from "./redux/capitoliSlice";
 import ListaCapitoliParagrafi from "./components/ListaCapitoliParagrafi";
 import CapitoloParagrafoForm from "./components/CapitoloParagrafoForm";
 import paragrafoIcon4 from "./assets/aggiungi_capitolo.png";
@@ -24,40 +29,38 @@ function App() {
     system,
   } = useSelector((state) => state.capitoli);
 
-  // useEffect(() => {
-  //   dispatch(fetchCapitoli());
-  // }, [dispatch, system]);
-
-  // useEffect(() => {
-  //   if (location.pathname === "/SystemCOM") {
-  //     dispatch(setSystem("COM"));
-  //   } else {
-  //     dispatch(setSystem("ESB"));
-  //   }
-  // }, [location]);
-
   useEffect(() => {
     dispatch(resetCapitoli());
-    // Imposta il sistema in base al percorso
-    if (location.pathname === "/SystemCOM") {
-      dispatch(setSystem("COM"));
-    } else {
-      dispatch(setSystem("ESB"));
-    }
-    dispatch(fetchCapitoli());
-    // Dopo aver impostato il sistema, recupera i capitoli
-  }, [dispatch, location.pathname, system]);
 
-  //NUOVO gestisce l'upload e il download da git del file
-  const [isUploadFromGit, setUploadFromGit] = useState(false);
-  useEffect(() => {
-    if (!isUploadFromGit) {
-      console.log(
-        ">>>>>>>>>>>>>>>     chiamata alla uploadFileGit() <<<<<<<<<<<<<<<<<<<<<<<<<<<<<< "
-      ); //inserire la chiamata ad api o LOG
-      setUploadFromGit(true);
+    // Imposta il sistema in base al percorso
+    const path = location.pathname;
+    if (path === "/SystemCOM") {
+      dispatch(setSystem("COM"));
+    } else if (path === "/SystemESB") {
+      dispatch(setSystem("ESB"));
+    } else if (path === "/SystemCRM") {
+      dispatch(setSystem("CRM"));
+    } else if (path === "/SystemCOMB") {
+      dispatch(setSystem("COMB"));
+    } else {
+      dispatch(setSystem("default"));
     }
-  }, [isUploadFromGit]);
+
+    dispatch(fetchCapitoli());
+  }, [dispatch, location.pathname]);
+
+  // Gestisce il download da Git
+  const [isDownloadFromGit, setDownloadFromGit] = useState(false);
+  useEffect(() => {
+    if (!isDownloadFromGit && location.pathname !== "/") {
+      console.log(
+        ">>>>>>>>>>>>>>>     chiamata alla DOWNLOAD DA GIT <<<<<<<<<<<<<<<<<<<<<<<<<<<<<< ",
+        system
+      );
+      dispatch(downloadFromGit());
+      setDownloadFromGit(true);
+    }
+  }, [dispatch, isDownloadFromGit, location.pathname, system]);
 
   //gestisce la visualizzazione dei componenti nella pagina
   const [showAddCapitoloForm, setShowAddCapitoloForm] = useState({

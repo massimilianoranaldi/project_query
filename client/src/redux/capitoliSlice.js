@@ -6,7 +6,7 @@ import axios from "axios";
 //const API_BASE_URL = "https://project-query.onrender.com"; (server)
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
+//funzione per estrarre timestamp
 function getTimestamp() {
   const now = new Date();
   return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
@@ -19,13 +19,28 @@ function getTimestamp() {
   ).padStart(2, "0")}.${String(now.getMilliseconds()).padStart(3, "0")}`;
 }
 
+// Azione asincrona per fare l'upload su GitHub
+export const downloadFromGit = createAsyncThunk(
+  "capitoli/downloadFromGit",
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const system = getState().capitoli.system; // Ricava il valore di `system` dallo stato
+      const url = `${API_BASE_URL}/downloadFromGit/${system}`;
+      const response = await axios.post(url);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 //questa funzione viene utilizzata per la creazione di task asincroni al di fuori dello slice (es. chiamate api)
 export const fetchCapitoli = createAsyncThunk(
   "capitoli/fetchCapitoli",
   async (_, { getState }) => {
     const system = getState().capitoli.system;
     const url = `${API_BASE_URL}/getCapitoliParagrafi/${system}`;
-    console.log(getTimestamp(), "client : ", url);
+    //console.log(getTimestamp(), "client : ", url);
     const response = await axios.get(
       //"http://localhost:3000/getCapitoliParagrafi"
       url
@@ -235,6 +250,21 @@ const capitoliSlice = createSlice({
       .addCase(importCapitoli.rejected, (state, action) => {
         state.error = action.error;
         state.loading = false;
+      })
+
+      //---------------------------------------
+      // Gestione delle altre azioni
+      .addCase(downloadFromGit.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(downloadFromGit.fulfilled, (state, action) => {
+        state.loading = false;
+        // Aggiornamenti allo stato, se necessari
+      })
+      .addCase(downloadFromGit.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
