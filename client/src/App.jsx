@@ -16,7 +16,7 @@ function App() {
 
   const location = useLocation();
 
-  // Usa lo slice giusto in base al valore di system
+  // gestisce le chiamate alle api
   const {
     data: dataCapitoli,
     loading,
@@ -24,22 +24,46 @@ function App() {
     system,
   } = useSelector((state) => state.capitoli);
 
-  const [showAddCapitoloForm, setShowAddCapitoloForm] = useState({
-    id: null,
-    operazione: null,
-  });
+  // useEffect(() => {
+  //   dispatch(fetchCapitoli());
+  // }, [dispatch, system]);
+
+  // useEffect(() => {
+  //   if (location.pathname === "/SystemCOM") {
+  //     dispatch(setSystem("COM"));
+  //   } else {
+  //     dispatch(setSystem("ESB"));
+  //   }
+  // }, [location]);
 
   useEffect(() => {
-    dispatch(fetchCapitoli());
-  }, [dispatch, system]);
-
-  useEffect(() => {
+    // Imposta il sistema in base al percorso
     if (location.pathname === "/SystemCOM") {
       dispatch(setSystem("COM"));
     } else {
       dispatch(setSystem("ESB"));
     }
-  }, [location]);
+
+    // Dopo aver impostato il sistema, recupera i capitoli
+    dispatch(fetchCapitoli());
+  }, [dispatch, location.pathname, system]);
+
+  //NUOVO gestisce l'upload e il download da git del file
+  const [isUploadFromGit, setUploadFromGit] = useState(false);
+  useEffect(() => {
+    if (!isUploadFromGit) {
+      console.log(
+        ">>>>>>>>>>>>>>>     chiamata alla uploadFileGit() <<<<<<<<<<<<<<<<<<<<<<<<<<<<<< "
+      ); //inserire la chiamata ad api o LOG
+      setUploadFromGit(true);
+    }
+  }, [isUploadFromGit]);
+
+  //gestisce la visualizzazione dei componenti nella pagina
+  const [showAddCapitoloForm, setShowAddCapitoloForm] = useState({
+    id: null,
+    operazione: null,
+  });
 
   if (loading) {
     return <div>Loading...</div>;

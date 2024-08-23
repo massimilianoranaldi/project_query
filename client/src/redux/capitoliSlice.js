@@ -124,7 +124,7 @@ const capitoliSlice = createSlice({
     data: [],
     loading: false,
     error: null,
-    system: "default", // Inizializza il sistema a "ESB"
+    system: "ESB", // Inizializza il sistema a "ESB"
   },
   reducers: {
     setSystem: (state, action) => {

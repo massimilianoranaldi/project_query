@@ -395,18 +395,28 @@ app.post("/caricaCapitoli/:system", (req, res) => {
   });
 });
 
-app.post("/upload", async (req, res) => {
+app.post("/uploadToGit/:system", async (req, res) => {
   try {
-    await uploadFileToGitHub();
+    console.log(
+      getTimestamp(),
+      "uploadToGit parametro sistema",
+      req.params.system
+    );
+    await uploadFileToGitHub(req.params.system);
     res.status(200).send("File uploaded and changes pushed to Git.");
   } catch (error) {
     res.status(500).send("Failed to upload file to Git.");
   }
 });
 
-app.post("/download", async (req, res) => {
+app.post("/downloadFromGit/:system", async (req, res) => {
   try {
-    await downloadFileFromGitHub();
+    console.log(
+      getTimestamp(),
+      "downloadFromGit parametro sistema",
+      req.params.system
+    );
+    await downloadFileFromGitHub(req.params.system);
     res.status(200).send("File uploaded and changes pushed to Git.");
   } catch (error) {
     res.status(500).send("Failed to upload file to Git.");
