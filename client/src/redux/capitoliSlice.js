@@ -124,11 +124,17 @@ const capitoliSlice = createSlice({
     data: [],
     loading: false,
     error: null,
-    system: "ESB", // Inizializza il sistema a "ESB"
+    system: "default", // Inizializza il sistema a "ESB"
   },
   reducers: {
     setSystem: (state, action) => {
       state.system = action.payload; // Aggiorna il valore di system
+    },
+    resetCapitoli: (state) => {
+      //consente di azzerare il contenuto della pagina da uno switch di pagina all0'altra
+      state.data = [];
+      state.loading = false;
+      state.error = null;
     },
   }, //usata se le azioni sono sincrone e svlote nello slice
   extraReducers: (builder) => {
@@ -233,4 +239,4 @@ const capitoliSlice = createSlice({
   },
 });
 export default capitoliSlice.reducer;
-export const { setSystem } = capitoliSlice.actions;
+export const { setSystem, resetCapitoli } = capitoliSlice.actions;

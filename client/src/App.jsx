@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import IndiceCapitoliParagrafi from "./components/IndiceCapitoliParagrafi";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCapitoli, setSystem } from "./redux/capitoliSlice";
+import { fetchCapitoli, setSystem, resetCapitoli } from "./redux/capitoliSlice";
 import ListaCapitoliParagrafi from "./components/ListaCapitoliParagrafi";
 import CapitoloParagrafoForm from "./components/CapitoloParagrafoForm";
 import paragrafoIcon4 from "./assets/aggiungi_capitolo.png";
@@ -37,15 +37,15 @@ function App() {
   // }, [location]);
 
   useEffect(() => {
+    dispatch(resetCapitoli());
     // Imposta il sistema in base al percorso
     if (location.pathname === "/SystemCOM") {
       dispatch(setSystem("COM"));
     } else {
       dispatch(setSystem("ESB"));
     }
-
-    // Dopo aver impostato il sistema, recupera i capitoli
     dispatch(fetchCapitoli());
+    // Dopo aver impostato il sistema, recupera i capitoli
   }, [dispatch, location.pathname, system]);
 
   //NUOVO gestisce l'upload e il download da git del file
