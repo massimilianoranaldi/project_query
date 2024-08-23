@@ -125,7 +125,7 @@ function App() {
                 <button
                   title="Esporta Dati"
                   className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-yellow-600"
-                  onClick={() => handleExportData(dataCapitoli)}
+                  onClick={() => handleExportData(dataCapitoli, system)}
                 >
                   <img
                     src={paragrafoIcon5}

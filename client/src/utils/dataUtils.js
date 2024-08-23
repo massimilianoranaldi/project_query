@@ -37,7 +37,7 @@ export const handleImportData = async (dispatch) => {
 };
 
 // Funzione per esportare i dati
-export const handleExportData = async (dataCapitoli) => {
+export const handleExportData = async (dataCapitoli, system) => {
   try {
     // Serializza i dati in formato JSON
     const jsonString = JSON.stringify(dataCapitoli, null, 2);
@@ -45,7 +45,8 @@ export const handleExportData = async (dataCapitoli) => {
 
     // Usa la API File System Access per salvare il file
     const fileHandle = await window.showSaveFilePicker({
-      suggestedName: "capitoli.json",
+      //suggestedName: "queryDb.json",
+      suggestedName: `queryDb${system}.json`,
       types: [
         {
           description: "JSON file",
