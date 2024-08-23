@@ -9,19 +9,23 @@ import Home from "./pages/Home";
 import "./App.css";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import { fetchCapitoli } from "./redux/capitoliSlice";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home></Home>,
+    loader: () => fetchCapitoli("ESB"), // Precarica i dati per ESB
   },
   {
     path: "/SystemESB",
     element: <App></App>,
+    loader: () => fetchCapitoli("ESB"), // Carica i dati necessari per SystemESB
   },
   {
     path: "/SystemCOM",
     element: <App></App>,
+    loader: () => fetchCapitoli("COM"), // Carica i dati necessari per SystemCOM
   },
 
   // {
