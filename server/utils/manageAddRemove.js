@@ -79,8 +79,13 @@ function getTimestamp() {
 function getDbJson(system) {
   if (system === "ESB") {
     return "./assets/queryDb.json";
+  } else if (system === "COM") {
+    return "./assets/queryDbCOM.json";
+  } else if (system === "COMB") {
+    return "./assets/queryDbCOMB.json";
+  } else if (system === "CRM") {
+    return "./assets/queryDbCRM.json";
   }
-  return "./assets/queryDbCOM.json";
 }
 
 module.exports = {

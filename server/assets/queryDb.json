@@ -1,7 +1,7 @@
 [
   {
     "id": "1",
-    "nomeCapitolo": "***   ESB",
+    "nomeCapitolo": "FIXED CRP: ESTRAZIONE EVENTI VERSO KENAN - FOCUS DATA ATTIVAZIONE/CESSAZIONE SCENARIO NP INTERNA",
     "paragrafi": [
       {
         "id": "1.1",
@@ -260,18 +260,6 @@
         "nomeParagrafo": "Estrazione codice pin da id ordine o request id",
         "codicePlSql": "select \n  extractValue(xmltype(d.document_xml),'ns0:commercialOrder/ns0:order/ns0:idCommercialOrder','xmlns:ns0=\"http://phoenix.wind.it/common/CommercialOrder\"')as idCommercialOrder,\nextractValue(xmltype(d.document_xml),'ns0:commercialOrder/ns0:order/@tipo','xmlns:ns0=\"http://phoenix.wind.it/common/CommercialOrder\"')as tipo_ordine,\nextractValue(xmltype(d.document_xml),'ns0:commercialOrder/ns0:order/@sottotipo','xmlns:ns0=\"http://phoenix.wind.it/common/CommercialOrder\"') as sottotipo_ordine,\nextractValue(xmltype(d.document_xml),'ns0:commercialOrder/ns0:order/ns0:bssOrder','xmlns:ns0=\"http://phoenix.wind.it/common/CommercialOrder\"') as bssOrder,\nextractValue(xmltype(d.document_xml),'ns0:commercialOrder/ns0:order/ns0:causaleOrdine','xmlns:ns0=\"http://phoenix.wind.it/common/CommercialOrder\"') as causale_ordine\n,p.codicePin\n  from \nrequest_hs a,request_doc_hs d,\naction_hs b,\nrequest_hs c\n,XMLTable(xmlnamespaces( \n 'http://phoenix.wind.it/common/CommercialOrder' as \"ns0\" \n),\n              '/ns0:commercialOrder/ns0:order//descendant::*/*[@tipo=\"TE\" and @sottoTipo=\"DATLA\"]'\n              PASSING XMLTYPE(d.document_xml)\n              COLUMNS\n                codicePin VARCHAR2(50) PATH 'ns0:codicePin'\n                ) p         \nwhere 1=1 and\na.id=c.root_id and\nc.id=b.request_id and\na.name='In Order' and \nb.name='Send Start Pin to CRM' and \nc.name='Service Provisioning'  and \nd.id=a.document_id and",
         "outPutSql": "IDCOMMERCIALORDER\tTIPO_ORDINE\tSOTTOTIPO_ORDINE\tBSSORDER\tCAUSALE_ORDINE\tCODICEPIN\n1-629047550831\tAttivazione\tAttivazione\tY\tPrima Attivazione\tFWI0997776822001"
-      }
-    ]
-  },
-  {
-    "id": "15",
-    "nomeCapitolo": "Inserisci il nome del Capitolo",
-    "paragrafi": [
-      {
-        "id": "15.1",
-        "nomeParagrafo": "Inserisci il nome del Paragrafo",
-        "codicePlSql": "Scrivi qui il codice PLSQL",
-        "outPutSql": "Incolla qui la tua tabella"
       }
     ]
   }

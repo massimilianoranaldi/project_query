@@ -41,13 +41,13 @@ app.use(express.json()); //uso questo middleware per gestoire i json
 app.get("/getCapitoliParagrafi/:system", async (req, res) => {
   console.log(
     getTimestamp(),
-    "getCapitoliParagrafi parametro sistema",
+    "------------------ getCapitoliParagrafi parametro sistema",
     req.params.system,
     getDbJson(req.params.system)
   );
   try {
     // Scarica il file dal repository GitHub prima di leggerlo
-    //await downloadFileFromGitHub(req.params.system);
+    await downloadFileFromGitHub(req.params.system);
     //recupero il file dal repository se diverso da quello attuale
 
     readFile(getDbJson(req.params.system), (err, data) => {
