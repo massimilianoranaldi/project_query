@@ -6,7 +6,7 @@ function Sidebar() {
   return (
     <div
       className="fixed top-0 left-0 h-full w-65 bg-yellow-500 text-white flex flex-col items-start pl-4 shadow-lg"
-      style={{ zIndex: 7000 }}
+      style={{ zIndex: 9000 }}
     >
       <h2 className="mt-4 text-l font-bold text-left">Menu</h2>
       <nav className="mt-8 w-full">
