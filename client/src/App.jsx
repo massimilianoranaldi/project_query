@@ -97,7 +97,7 @@ function App() {
   return (
     <>
       <Sidebar />
-      <div className="ml-64 p-4">
+      <div className="ml-60 p-4">
         {" "}
         {/* Aggiunta di margine per il pannello */}
         <div className="mb-4 p-0 bg-white text-left border-yellow-500 border-b-4 border-l-4">

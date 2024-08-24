@@ -1,0 +1,101 @@
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CATALOGO QUERY ESB</title>
+    <link rel="stylesheet" type="text/css" href="CollectionEsbQuery.css" />
+    <link rel="icon" href="dbESB.png" type="image/png" />
+    <script src="CollectionEsbQuery.js" defer=""></script>
+    <!-- Collegamento al file JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  </head>
+  <body>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CATALOGO QUERY ESB</title>
+    <link rel="stylesheet" type="text/css" href="CollectionEsbQuery.css" />
+    <script src="CollectionEsbQuery.js" defer=""></script>
+    <!-- Collegamento al file JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CATALOGO QUERY ESB</title>
+    <link rel="stylesheet" type="text/css" href="CollectionEsbQuery.css" />
+    <script src="CollectionEsbQuery.js" defer=""></script>
+    <!-- Collegamento al file JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Indice -->
+
+    <!-- STRUTTURA Capitolo 1 -->
+
+    <div class="chapter-container" id="chapter1">
+      <div class="chapter-title">CAP 1 - Esempio</div>
+      <button class="chapter-button" onclick="aggiungiParagrafo('chapter1')">
+        Aggiungi Paragrafo
+      </button>
+      <button class="chapter-button" onclick="eliminaParagrafo('chapter1')">
+        Elimina Paragrafo
+      </button>
+
+      <!-- STRUTTURA DEL PARAGRAFO -->
+      <div class="section" id="chapter1-section1">
+        <!-- STRUTTURA DEL TITOLO DEL PARAGRAFO -->
+        <div class="section-column1">
+          <div class="section-title">PAR 1.1 - Esempio</div>
+          <hr />
+          <!-- STRUTTURA DELLA QUERY DEL PARAGRAFO -->
+          <pre class="bkg-section">				<code class="language-sql">
+SELECT * FROM table_name where pippo="pluto";
+				</code>
+				</pre>
+          <button
+            class="chapter-button"
+            onclick="copiaCode('chapter1-section1')"
+          >
+            Copia codice
+          </button>
+          <button
+            class="chapter-button disabled"
+            onclick="modificaCode('chapter1-section1')"
+            disabled=""
+          >
+            Modifica codice
+          </button>
+          <button class="chapter-button" onclick="tornaAllInizio()">
+            Torna inizio
+          </button>
+        </div>
+        <p></p>
+        <div class="section-column2">
+          <!-- STRUTTURA DELLA TABELLA DI OUTPUT DEL PARAGRAFO -->
+          <table>
+            <thead>
+              <tr class="first-row">
+                <th>Colonna 1</th>
+                <th>Colonna 2</th>
+                <th>Colonna 3</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Dato 1</td>
+                <td>Dato 2</td>
+                <td>Dato 3</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p></p>
+      </div>
+      <!-- Aggiungi o elimina sottoparagrafo -->
+    </div>
+  </body>
+</html>
