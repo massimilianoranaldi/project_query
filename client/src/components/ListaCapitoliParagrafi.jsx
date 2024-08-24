@@ -160,7 +160,7 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
           ref={(el) => (capitoloRefs.current[capitolo.id] = el)}
         >
           <div className="flex items-center justify-end mb-0 bg-gradient-custom-2">
-            <div className="font-bold text-xl justify-end text-white">
+            <div className="font-bold text-l justify-end text-white">
               {`Cap ${capitolo.id} - ${capitolo.nomeCapitolo}`}
             </div>
             <div className="relative ml-auto justify-end">
