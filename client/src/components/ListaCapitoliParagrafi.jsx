@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import ParagrafoForm from "./CapitoloParagrafoForm";
 import { useDispatch } from "react-redux";
 import { eliminaParagrafo } from "../redux/capitoliSlice";
@@ -18,6 +18,9 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
   const dispatch = useDispatch();
   const heightLimitTable = 300; // Altezza limite per la tabella in pixel
   const heightLimitCode = 300; // Altezza limite per il codice in pixel
+
+  // Create refs for each capitolo
+  const capitoloRefs = useRef({});
 
   const calculateTableHeight = (rows) => rows.length * 24; // Altezza stimata per ogni riga della tabella
 
@@ -141,14 +144,21 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
     );
   };
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  const scrollToTop = (capitoloId) => {
+    if (capitoloRefs.current[capitoloId]) {
+      capitoloRefs.current[capitoloId].scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
     <div className="flex flex-col pl-4 pt-4 pb-4 h-full">
       {capitoli.map((capitolo) => (
-        <div id={capitolo.id} key={capitolo.id} className="mb-6">
+        <div
+          id={capitolo.id}
+          key={capitolo.id}
+          className="mb-6"
+          ref={(el) => (capitoloRefs.current[capitolo.id] = el)}
+        >
           <div className="flex items-center justify-end mb-0 bg-gradient-to-r to-white from-yellow-500">
             <div className="font-bold text-xl justify-end">
               {`Cap ${capitolo.id} - ${capitolo.nomeCapitolo}`}
@@ -181,12 +191,12 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
               <button
                 title="Modifica Capitolo"
                 className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-yellow-600"
+                onClick={() => handleModifyChapter(capitolo.id)}
               >
                 <img
                   src={paragrafoIcon8}
-                  alt="Elimina Capitolo"
+                  alt="Modifica Capitolo"
                   className="w-5 h-5"
-                  onClick={() => handleModifyChapter(capitolo.id)}
                 />
               </button>
             </div>
@@ -207,7 +217,7 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
             <div
               id={paragrafo.id}
               key={paragrafo.id}
-              className="mb-0 pl-4 pt-4 pb-0 border-yellow-500 border-l-4 border-b-4"
+              className="pb-3 pl-4 pt-4  border-yellow-500 border-l-4 border-b-4 "
             >
               <div className="flex items-center justify-between font-semibold bg-gradient-to-r to-white from-yellow-500">
                 <span>{`Par ${paragrafo.id} - ${paragrafo.nomeParagrafo}`}</span>
@@ -216,7 +226,7 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
                   <button
                     title="Torna Su"
                     className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-yellow-600"
-                    onClick={scrollToTop}
+                    onClick={() => scrollToTop(capitolo.id)}
                   >
                     <img
                       src={paragrafoIcon10}
@@ -257,12 +267,12 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
                   <button
                     title="Modifica Paragrafo"
                     className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-yellow-600"
+                    onClick={() => handleModifyPar(paragrafo.id)}
                   >
                     <img
                       src={paragrafoIcon7}
                       alt="Modifica Paragrafo"
                       className="w-5 h-5"
-                      onClick={() => handleModifyPar(paragrafo.id)}
                     />
                   </button>
                 </div>
