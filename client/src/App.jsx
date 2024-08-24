@@ -106,7 +106,7 @@ function App() {
               </button>
               <button
                 title="Importa Dati"
-                className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-customColor3 mr-5"
+                className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-customColor3 mr-4"
                 onClick={() => handleImportData(dispatch)}
               >
                 <img
@@ -130,10 +130,10 @@ function App() {
           <div className="flex items-center justify-between bg-customColor2 border-customColor1  border-l-0 ">
             <h1 className="text-left text-3xl font-bold">Lista dei Capitoli</h1>
             <div className="ml-auto flex gap-2">
-              <div className="relative ml-auto justify-end mr-5">
+              <div className="relative ml-auto justify-end mr-4">
                 <button
                   title="Aggiungi Capitolo"
-                  className="bg-transparent text-white mr-5 rounded-2xl hover:bg-customColor3 "
+                  className="bg-transparent text-white mr-4 rounded-2xl hover:bg-customColor3 "
                   onClick={handleAddCapitoloClick}
                 >
                   <img
