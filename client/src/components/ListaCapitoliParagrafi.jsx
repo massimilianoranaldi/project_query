@@ -207,7 +207,7 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
             <div
               id={paragrafo.id}
               key={paragrafo.id}
-              className="mb-0 pl-4 pt-4 pb-0 border-yellow-500 border-l-4"
+              className="mb-0 pl-4 pt-4 pb-0 border-yellow-500 border-l-4 border-b-4"
             >
               <div className="flex items-center justify-between font-semibold bg-gradient-to-r to-white from-yellow-500">
                 <span>{`Par ${paragrafo.id} - ${paragrafo.nomeParagrafo}`}</span>
@@ -280,7 +280,9 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
               <div className="overflow-x-auto bg-gray-200 p-0 mt-4">
                 {renderCodeBlock(paragrafo.codicePlSql)}
               </div>
-              <div>{renderTableFromCSV(paragrafo.outPutSql)}</div>
+              <div className="mt-4">
+                {renderTableFromCSV(paragrafo.outPutSql)}
+              </div>
             </div>
           ))}
         </div>
