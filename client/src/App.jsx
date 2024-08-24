@@ -87,15 +87,15 @@ function App() {
       <Sidebar />
       <div className="ml-60 h-screen flex flex-col">
         {/* Sezione dell'indice */}
-        <div className="bg-white border-yellow-500 border-b-4 border-l-4">
-          <div className="flex items-center justify-between bg-gradient-to-r from-yellow-500 to-white sticky top-0 z-10">
+        <div className="bg-white border-customColor1 border-b-4 border-l-4">
+          <div className="flex items-center justify-between bg-customColor2 sticky top-0 z-10">
             <h1 className="text-left text-3xl font-bold">
               {`INDICE dei Capitoli ${system}`}
             </h1>
             <div className="flex gap-0">
               <button
                 title="Esporta Dati"
-                className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-yellow-600"
+                className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-customColor3"
                 onClick={() => handleExportData(dataCapitoli, system)}
               >
                 <img
@@ -106,7 +106,7 @@ function App() {
               </button>
               <button
                 title="Importa Dati"
-                className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-yellow-600 mr-5"
+                className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-customColor3 mr-5"
                 onClick={() => handleImportData(dispatch)}
               >
                 <img
@@ -126,14 +126,14 @@ function App() {
         </div>
 
         {/* Sezione della lista dei capitoli e paragrafi */}
-        <div className="flex-1 flex flex-col overflow-hidden bg-white border-yellow-500 border-b-4 border-l-4 mt-4">
-          <div className="flex items-center justify-between bg-gradient-to-r from-yellow-500 to-white border-yellow-500  border-l-4 ">
+        <div className="flex-1 flex flex-col overflow-hidden bg-white border-customColor1 border-b-4 border-l-4 mt-4">
+          <div className="flex items-center justify-between bg-customColor2 border-customColor1  border-l-0 ">
             <h1 className="text-left text-3xl font-bold">Lista dei Capitoli</h1>
             <div className="ml-auto flex gap-2">
-              <div className="relative ml-auto justify-end mr-4">
+              <div className="relative ml-auto justify-end mr-5">
                 <button
                   title="Aggiungi Capitolo"
-                  className="bg-transparent text-white mr-5 rounded-2xl hover:bg-yellow-600 "
+                  className="bg-transparent text-white mr-5 rounded-2xl hover:bg-customColor3 "
                   onClick={handleAddCapitoloClick}
                 >
                   <img

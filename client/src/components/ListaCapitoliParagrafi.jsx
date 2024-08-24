@@ -159,14 +159,14 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
           className="mb-6"
           ref={(el) => (capitoloRefs.current[capitolo.id] = el)}
         >
-          <div className="flex items-center justify-end mb-0 bg-gradient-to-r to-white from-yellow-500">
-            <div className="font-bold text-xl justify-end">
+          <div className="flex items-center justify-end mb-0 bg-gradient-custom-2">
+            <div className="font-bold text-xl justify-end text-white">
               {`Cap ${capitolo.id} - ${capitolo.nomeCapitolo}`}
             </div>
             <div className="relative ml-auto justify-end">
               <button
                 title="Aggiungi Paragrafo"
-                className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-yellow-600"
+                className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-customColor3"
                 onClick={() => handleAddParagraph(capitolo.id)}
               >
                 <img
@@ -177,7 +177,7 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
               </button>
               <button
                 title="Elimina Capitolo"
-                className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-yellow-600"
+                className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-customColor3"
                 onClick={() =>
                   handleDeleteParagraph(capitolo.id, capitolo.nomeCapitolo)
                 }
@@ -190,7 +190,7 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
               </button>
               <button
                 title="Modifica Capitolo"
-                className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-yellow-600"
+                className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-customColor3"
                 onClick={() => handleModifyChapter(capitolo.id)}
               >
                 <img
@@ -217,15 +217,15 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
             <div
               id={paragrafo.id}
               key={paragrafo.id}
-              className="pb-3 pl-4 pt-4  border-yellow-500 border-l-4 border-b-4 "
+              className="pb-3 pl-4 pt-4  border-customColor1 border-l-4 border-b-4 bg-gray-100 "
             >
-              <div className="flex items-center justify-between font-semibold bg-gradient-to-r to-white from-yellow-500">
+              <div className="flex items-center justify-between font-semibold bg-gradient-custom-1 text-white">
                 <span>{`Par ${paragrafo.id} - ${paragrafo.nomeParagrafo}`}</span>
 
                 <div className="relative ml-auto">
                   <button
                     title="Torna Su"
-                    className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-yellow-600"
+                    className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-customColor3"
                     onClick={() => scrollToTop(capitolo.id)}
                   >
                     <img
@@ -237,7 +237,7 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
 
                   <button
                     title="Copia Codice SQL"
-                    className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-yellow-600"
+                    className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-customColor3"
                     onClick={() => handleCopy(paragrafo.codicePlSql)}
                   >
                     <img
@@ -249,7 +249,7 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
 
                   <button
                     title="Elimina Paragrafo"
-                    className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-yellow-600"
+                    className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-customColor3"
                     onClick={() =>
                       handleDeleteParagraph(
                         paragrafo.id,
@@ -266,7 +266,7 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
 
                   <button
                     title="Modifica Paragrafo"
-                    className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-yellow-600"
+                    className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-customColor3"
                     onClick={() => handleModifyPar(paragrafo.id)}
                   >
                     <img
