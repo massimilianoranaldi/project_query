@@ -11,8 +11,8 @@ export default {
       },
       // UTILIZZATO PER I CAPITOLI PARAGRAFI CON GRADIENTE (tema predominante #eab308)
       backgroundImage: {
-        "gradient-custom-1": "linear-gradient(to right, #967305, #eab308)", //usato per sfumare i capitoli
-        "gradient-custom-2": "linear-gradient(to right, #3B2D02, #eab308)", //usato per sfumare paragrafi
+        "gradient-custom-1": "linear-gradient(to right, #C3C3C3, #ffffff)", //usato per sfumare i paragrafi
+        "gradient-custom-2": "linear-gradient(to right, #C3C3C3, #ffffff)", //usato per sfumare capitoli
       },
     },
   },

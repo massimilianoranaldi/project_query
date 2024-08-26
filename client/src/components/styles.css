@@ -1,0 +1,17 @@
+.custom-header .MuiDataGrid-root {
+  font-family: "Arial", sans-serif; /* Font della tabella */
+  color: #333; /* Colore del testo */
+}
+
+.custom-header .MuiDataGrid-columnHeaders {
+  background-color: #eab308; /* Colore di sfondo dell'intestazione delle colonne */
+  color: black; /* Colore del testo dell'intestazione delle colonne */
+}
+
+.custom-header .MuiDataGrid-cell {
+  border-bottom: 1px solid #ddd; /* Bordo delle celle */
+}
+
+.custom-header .MuiDataGrid-footerContainer {
+  background-color: #eab308; /* Colore di sfondo del footer della tabella */
+}

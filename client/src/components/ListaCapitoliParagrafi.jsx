@@ -10,6 +10,7 @@ import paragrafoIcon8 from "../assets/modifica_capitolo.png";
 import paragrafoIcon9 from "../assets/copia_plsql.png";
 import paragrafoIcon10 from "../assets/torna_su.png";
 
+import HomeIcon from "@mui/icons-material/AddHomeTwoTone";
 const ListaCapitoliParagrafi = ({ capitoli }) => {
   const [visibleForm, setVisibleForm] = React.useState({
     id: null,
@@ -51,7 +52,7 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
               {rows[0].map((cell, index) => (
                 <th
                   key={index}
-                  className="border border-black px-1 py-1 whitespace-nowrap bg-yellow-100"
+                  className="border border-black px-1 py-1 whitespace-nowrap bg-blue-100"
                 >
                   {cell}
                 </th>
@@ -159,8 +160,9 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
           className="mb-6"
           ref={(el) => (capitoloRefs.current[capitolo.id] = el)}
         >
+          {/* <div className="flex items-center justify-end mb-0 bg-gradient-custom-2"> */}
           <div className="flex items-center justify-end mb-0 bg-gradient-custom-2">
-            <div className="font-bold text-l justify-end text-white">
+            <div className="font-bold text-l justify-end text-black">
               {`Cap ${capitolo.id} - ${capitolo.nomeCapitolo}`}
             </div>
             <div className="relative ml-auto justify-end">
@@ -188,6 +190,7 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
                   className="w-5 h-5"
                 />
               </button>
+
               <button
                 title="Modifica Capitolo"
                 className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-customColor3"
@@ -217,9 +220,10 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
             <div
               id={paragrafo.id}
               key={paragrafo.id}
-              className="pb-3 pl-4 pt-4  border-customColor1 border-l-4 border-b-4 bg-gray-100 "
+              className="pb-3 pl-4 pt-4  border-black   "
             >
-              <div className="flex items-center justify-between font-semibold bg-gradient-custom-1 text-white">
+              {/* <div className="flex items-center justify-between font-semibold bg-gradient-custom-1 text-black"> */}
+              <div className="flex items-center justify-between text-black ">
                 <span>{`Par ${paragrafo.id} - ${paragrafo.nomeParagrafo}`}</span>
 
                 <div className="relative ml-auto">
@@ -287,6 +291,7 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
                     onCancel={handleCancel}
                   />
                 )}
+
               <div className="overflow-x-auto bg-gray-200 p-0 mt-4">
                 {renderCodeBlock(paragrafo.codicePlSql)}
               </div>
