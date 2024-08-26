@@ -381,8 +381,16 @@ const DataTableUsers = () => {
 
   // Gestisce l'apertura della finestra di dialogo e memorizza l'ID della riga
   const handleTogglePasswordVisibility = (id) => {
-    setSelectedRowId(id);
-    setOpenDialog(true);
+    // Se la password è già visibile, nascondila senza richiedere codice
+    if (passwordVisibility[id]) {
+      setPasswordVisibility((prev) => ({
+        ...prev,
+        [id]: false,
+      }));
+    } else {
+      setSelectedRowId(id);
+      setOpenDialog(true);
+    }
   };
 
   // Chiude la finestra di dialogo e resetta il codice e l'errore
