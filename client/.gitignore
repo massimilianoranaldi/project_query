@@ -23,3 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 components/DataTableUsersBKP.jsx
+DataTableUsersBKP.jsx
+DataTableUsersPRD.jsx
+components/DataTableUsersPRD.jsx
