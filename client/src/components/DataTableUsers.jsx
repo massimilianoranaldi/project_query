@@ -394,7 +394,7 @@ const DataTableUsers = () => {
 
   // Verifica il codice e aggiorna la visibilità della password
   const handleConfirm = () => {
-    if (code === "abcdef") {
+    if (code === "ComEsb#2024") {
       // Codice corretto
       setPasswordVisibility((prev) => ({
         ...prev,
