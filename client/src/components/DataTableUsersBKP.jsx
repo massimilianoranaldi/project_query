@@ -25,7 +25,7 @@ const DataTableUsers = () => {
       consoleDetails: "n.a.",
       consoleReprocesser: "n.a.",
       user: "BW",
-      password: "abc",
+      password: "PERF_BW",
     },
     {
       id: 2,
@@ -38,7 +38,7 @@ const DataTableUsers = () => {
       consoleDetails: "n.a.",
       consoleReprocesser: "n.a.",
       user: "BW_BILL",
-      password: "abc",
+      password: "PERF_BW_BILL",
     },
     {
       id: 3,
@@ -51,7 +51,7 @@ const DataTableUsers = () => {
       consoleDetails: "n.a.",
       consoleReprocesser: "n.a.",
       user: "monitor_sys",
-      password: "abc",
+      password: "supermonitor",
     },
     {
       id: 4,
@@ -64,7 +64,7 @@ const DataTableUsers = () => {
       consoleDetails: "n.a.",
       consoleReprocesser: "n.a.",
       user: "esbapp",
-      password: "abc",
+      password: "Pwd_esbapp_lug14",
     },
     {
       id: 5,
@@ -77,7 +77,7 @@ const DataTableUsers = () => {
       consoleDetails: "n.a.",
       consoleReprocesser: "n.a.",
       user: "ESBBILLAPP",
-      password: "abc",
+      password: "Pwd_esbbillapp_lug14",
     },
     {
       id: 6,
@@ -90,7 +90,7 @@ const DataTableUsers = () => {
       consoleDetails: "n.a.",
       consoleReprocesser: "n.a.",
       user: "rmngapp",
-      password: "aaa",
+      password: "rmngapp_giu14p",
     },
     {
       id: 7,
@@ -102,8 +102,8 @@ const DataTableUsers = () => {
       console: "http://ipeadmesbp.wind.root.it:27853/EH/wccEH.html",
       consoleDetails: "n.a.",
       consoleReprocesser: "n.a.",
-      user: "abc",
-      password: "abc",
+      user: "HESBBILLOWN",
+      password: "hesbbillown",
     },
     {
       id: 8,
@@ -115,8 +115,8 @@ const DataTableUsers = () => {
       console: "http://ipeadmesbp.wind.root.it:27853/EH/wccEH.html",
       consoleDetails: "n.a.",
       consoleReprocesser: "n.a.",
-      user: "abc",
-      password: "abc",
+      user: "HESBOWN",
+      password: "hesbown",
     },
     {
       id: 9,
@@ -128,8 +128,8 @@ const DataTableUsers = () => {
       console: "http://ipeadmesbp.wind.root.it:27853/EH/wccEH.html",
       consoleDetails: "n.a.",
       consoleReprocesser: "n.a.",
-      user: "abc",
-      password: "abc",
+      user: "HESBOWN",
+      password: "hesbown",
     },
     {
       id: 10,
@@ -141,8 +141,8 @@ const DataTableUsers = () => {
       console: "http://ipeadmesbp.wind.root.it:27853/EH/wccEH.html",
       consoleDetails: "n.a.",
       consoleReprocesser: "n.a.",
-      user: "abc",
-      password: "abc",
+      user: "HESBBILLOWN",
+      password: "hesbbillown",
     },
     {
       id: 11,
@@ -155,7 +155,7 @@ const DataTableUsers = () => {
       consoleDetails: "n.a.",
       consoleReprocesser: "n.a.",
       user: "HESBBILLAPP",
-      password: "abc",
+      password: "HBWBILLINK_may2024!",
     },
     {
       id: 12,
@@ -168,7 +168,7 @@ const DataTableUsers = () => {
       consoleDetails: "n.a.",
       consoleReprocesser: "n.a.",
       user: "HBWBILLINK",
-      password: "abc",
+      password: "HBWBILLINK_may2024!",
     },
     {
       id: 13,
@@ -181,7 +181,7 @@ const DataTableUsers = () => {
       consoleDetails: "n.a.",
       consoleReprocesser: "n.a.",
       user: "BW",
-      password: "abc",
+      password: "PERF_BW",
     },
     {
       id: 14,
@@ -194,7 +194,7 @@ const DataTableUsers = () => {
       consoleDetails: "n.a.",
       consoleReprocesser: "n.a.",
       user: "monitor_sys",
-      password: "abc",
+      password: "supermonitor",
     },
     {
       id: 15,
@@ -207,7 +207,7 @@ const DataTableUsers = () => {
       consoleDetails: "n.a.",
       consoleReprocesser: "n.a.",
       user: "BW_BILL",
-      password: "abc",
+      password: "PERF_BW_BILL",
     },
     {
       id: 16,
@@ -220,7 +220,7 @@ const DataTableUsers = () => {
       consoleDetails: "n.a.",
       consoleReprocesser: "n.a.",
       user: "rmngown",
-      password: "aaa",
+      password: "rmngownprod",
     },
     {
       id: 17,
@@ -233,7 +233,7 @@ const DataTableUsers = () => {
       consoleDetails: "n.a.",
       consoleReprocesser: "n.a.",
       user: "rmngapp",
-      password: "aaa",
+      password: "rmngapp_giu14p",
     },
     {
       id: 18,
@@ -246,7 +246,7 @@ const DataTableUsers = () => {
       consoleDetails: "n.a.",
       consoleReprocesser: "n.a.",
       user: "bw",
-      password: "aaa",
+      password: "bwpwdc",
     },
     {
       id: 19,
@@ -259,7 +259,7 @@ const DataTableUsers = () => {
       consoleDetails: "n.a.",
       consoleReprocesser: "n.a.",
       user: "bw",
-      password: "aaa",
+      password: "bwpwdc",
     },
     {
       id: 20,
@@ -272,7 +272,7 @@ const DataTableUsers = () => {
       consoleDetails: "n.a.",
       consoleReprocesser: "n.a.",
       user: "bw_bill",
-      password: "aaa",
+      password: "bw_billpwdc",
     },
     {
       id: 21,
@@ -285,7 +285,7 @@ const DataTableUsers = () => {
       consoleDetails: "n.a.",
       consoleReprocesser: "n.a.",
       user: "rmngapp",
-      password: "aaa",
+      password: "rmngapp123c",
     },
     {
       id: 22,
@@ -298,7 +298,7 @@ const DataTableUsers = () => {
       consoleDetails: "n.a.",
       consoleReprocesser: "n.a.",
       user: "rmngown",
-      password: "aaa",
+      password: "rmngownpwdc",
     },
     {
       id: 23,
@@ -311,7 +311,7 @@ const DataTableUsers = () => {
       consoleDetails: "n.a.",
       consoleReprocesser: "n.a.",
       user: "bw",
-      password: "aaa",
+      password: "bw",
     },
     {
       id: 24,
@@ -324,7 +324,7 @@ const DataTableUsers = () => {
       consoleDetails: "n.a.",
       consoleReprocesser: "n.a.",
       user: "rmngapp",
-      password: "aaa",
+      password: "rmngapp_giu14p",
     },
     // Nuovi record aggiunti
     {
