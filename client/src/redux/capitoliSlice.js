@@ -64,6 +64,7 @@ export const fetchCapitoli = createAsyncThunk(
         paragrafi: capitolo.paragrafi.map((paragrafo) => ({
           id: `${system}-${paragrafo.id}`, // Concatenazione dell'ID del sistema con l'ID del paragrafo
           nomeParagrafo: paragrafo.nomeParagrafo,
+          codicePlSql: paragrafo.codicePlSql,
           outPutSql: paragrafo.outPutSql,
         })),
         sistem: system, // Aggiungi il nome del sistema per identificare la provenienza
