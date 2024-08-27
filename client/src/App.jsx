@@ -33,16 +33,20 @@ function App() {
     const path = location.pathname;
     if (path === "/SystemCOM") {
       dispatch(setSystem("COM"));
-      dispatch(fetchCapitoli("COM"));
+      //dispatch(fetchCapitoli("COM"));
+      dispatch(fetchCapitoli(["COM"]));
     } else if (path === "/SystemESB") {
       dispatch(setSystem("ESB"));
-      dispatch(fetchCapitoli("ESB"));
+      //dispatch(fetchCapitoli("ESB"));
+      dispatch(fetchCapitoli(["ESB"]));
     } else if (path === "/SystemCRM") {
       dispatch(setSystem("CRM"));
-      dispatch(fetchCapitoli("CRM"));
+      //dispatch(fetchCapitoli("CRM"));
+      dispatch(fetchCapitoli(["CRM"]));
     } else if (path === "/SystemCOMB") {
       dispatch(setSystem("COMB"));
-      dispatch(fetchCapitoli("COMB"));
+      //dispatch(fetchCapitoli("COMB"));
+      dispatch(fetchCapitoli(["COMB"]));
     } else {
       dispatch(setSystem("default"));
     }

@@ -24,5 +24,7 @@ dist-ssr
 *.sw?
 components/DataTableUsersBKP.jsx
 DataTableUsersBKP.jsx
-DataTableUsersPRD.jsx
 components/DataTableUsersPRD.jsx
+DataTableUsersPRD.jsx
+components/DataTable.jsx
+DataTable.jsx
