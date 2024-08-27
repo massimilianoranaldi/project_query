@@ -491,8 +491,8 @@ const DataTableUsers = () => {
 
   return (
     <div
-      style={{ height: 700, width: "100%" }}
-      className="custom-header text-gray-700 font-sans"
+      style={{ height: "100%", width: "100%" }}
+      className="custom-header text-gray-700 font-sans "
     >
       <DataGrid
         rows={tableData}
