@@ -10,6 +10,8 @@ import paragrafoIcon8 from "../assets/modifica_capitolo.png";
 import paragrafoIcon9 from "../assets/copia_plsql.png";
 import paragrafoIcon10 from "../assets/torna_su.png";
 
+import { extractOriginalId } from "../utils/dataUtils";
+
 import HomeIcon from "@mui/icons-material/AddHomeTwoTone";
 const ListaCapitoliParagrafi = ({ capitoli }) => {
   const [visibleForm, setVisibleForm] = React.useState({
@@ -169,7 +171,9 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
               <button
                 title="Aggiungi Paragrafo"
                 className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-customColor3"
-                onClick={() => handleAddParagraph(capitolo.id)}
+                onClick={() =>
+                  handleAddParagraph(extractOriginalId(capitolo.id))
+                }
               >
                 <img
                   src={paragrafoIcon}
@@ -181,7 +185,10 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
                 title="Elimina Capitolo"
                 className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-customColor3"
                 onClick={() =>
-                  handleDeleteParagraph(capitolo.id, capitolo.nomeCapitolo)
+                  handleDeleteParagraph(
+                    extractOriginalId(capitolo.id),
+                    capitolo.nomeCapitolo
+                  )
                 }
               >
                 <img
@@ -194,7 +201,9 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
               <button
                 title="Modifica Capitolo"
                 className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-customColor3"
-                onClick={() => handleModifyChapter(capitolo.id)}
+                onClick={() =>
+                  handleModifyChapter(extractOriginalId(capitolo.id))
+                }
               >
                 <img
                   src={paragrafoIcon8}
@@ -256,7 +265,7 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
                     className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-customColor3"
                     onClick={() =>
                       handleDeleteParagraph(
-                        paragrafo.id,
+                        extractOriginalId(paragrafo.id),
                         paragrafo.nomeParagrafo
                       )
                     }
@@ -271,7 +280,9 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
                   <button
                     title="Modifica Paragrafo"
                     className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-customColor3"
-                    onClick={() => handleModifyPar(paragrafo.id)}
+                    onClick={() =>
+                      handleModifyPar(extractOriginalId(paragrafo.id))
+                    }
                   >
                     <img
                       src={paragrafoIcon7}

@@ -124,7 +124,7 @@ function App() {
             </div>
           </div>
           <div
-            style={{ maxHeight: "550px", overflowY: "auto" }}
+            style={{ maxHeight: "500px", overflowY: "auto" }}
             className="mb-4"
           >
             <IndiceCapitoliParagrafi capitoli={dataCapitoli} />

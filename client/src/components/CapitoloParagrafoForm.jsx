@@ -9,6 +9,8 @@ import {
 import paragrafoIcon5 from "../assets/salva.png";
 import paragrafoIcon6 from "../assets/annulla.png";
 
+import { extractOriginalId } from "../utils/dataUtils";
+
 const CapitoloParagrafoForm = ({
   capitolo,
   onSave,
@@ -67,6 +69,8 @@ const CapitoloParagrafoForm = ({
   };
 
   const handleSave = async () => {
+    let capId;
+    let parId;
     let payload = {};
     let paragrafoId;
     switch (operazione) {
@@ -88,8 +92,10 @@ const CapitoloParagrafoForm = ({
         break;
       case "addParagraph":
         paragrafoId = new Date().getTime().toString();
+        capId = extractOriginalId(capitolo.id); //NEW
         payload = {
-          id: capitolo.id,
+          //id: capitolo.id,
+          id: capId,
           paragrafi: [
             {
               id: paragrafoId,
@@ -102,16 +108,20 @@ const CapitoloParagrafoForm = ({
         await dispatch(addParagrafo(payload));
         break;
       case "modChapter":
+        capId = extractOriginalId(capitolo.id); //NEW
         payload = {
-          id: capitolo.id,
+          id: capId,
+          //id: capitolo.id,
           nuovoNomeCapitolo: formValues.nomeCapitolo,
         };
         await dispatch(modificaCapitolo(payload));
         break;
 
       case "modPar":
+        parId = extractOriginalId(paragrafo.id); //NEW
         payload = {
-          id: paragrafo.id,
+          //id:paragrafo.id,
+          id: parId,
           nuovoNomeParagrafo: formValues.nomeParagrafo,
           nuovoCodicePlSql: formValues.codicePlSql,
           nuovoOutPutSql: formValues.outPutSql,

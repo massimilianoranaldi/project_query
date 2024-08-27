@@ -66,3 +66,11 @@ export const handleExportData = async (dataCapitoli, system) => {
     alert("Errore durante il salvataggio del file.");
   }
 };
+
+export function extractOriginalId(concatenatedId) {
+  // Dividi l'ID concatenato sul trattino
+  const parts = concatenatedId.split("-");
+
+  // Se l'ID è stato correttamente concatenato, l'originale è l'ultima parte
+  return parts.length > 1 ? parts.slice(1).join("-") : concatenatedId;
+}
