@@ -45,6 +45,14 @@ export const fetchCapitoli = createAsyncThunk(
 
     // Funzione per ottenere i capitoli da un singolo sistema per le singole pagine
     //---------------------------------------------------------------------------------
+    // const fetchCapitoliForSystem = async (system) => {
+    //   const url = `${API_BASE_URL}/getCapitoliParagrafi/${system}`;
+    //   const response = await axios.get(url);
+    //   return response.data.data.map((item) => ({
+    //     ...item,
+    //     sistem: system, // Aggiungi il nome del sistema per identificare la provenienza
+    //   }));
+    // };
     const fetchCapitoliForSystem = async (system) => {
       const url = `${API_BASE_URL}/getCapitoliParagrafi/${system}`;
       const response = await axios.get(url);
@@ -56,29 +64,11 @@ export const fetchCapitoli = createAsyncThunk(
         paragrafi: capitolo.paragrafi.map((paragrafo) => ({
           id: `${system}-${paragrafo.id}`, // Concatenazione dell'ID del sistema con l'ID del paragrafo
           nomeParagrafo: paragrafo.nomeParagrafo,
-          codicePlSql: paragrafo.codicePlSql,
+          outPutSql: paragrafo.outPutSql,
         })),
         sistem: system, // Aggiungi il nome del sistema per identificare la provenienza
       }));
     };
-
-    // Funzione per ottenere i capitoli da tutti i sistemi contemporaneamente
-    //---------------------------------------------------------------------------------
-    // const fetchCapitoliForSystem = async (system) => {
-    //   const url = `${API_BASE_URL}/getCapitoliParagrafi/${system}`;
-    //   const response = await axios.get(url);
-
-    //   // Mappare i dati ricevuti
-    //   return response.data.data.flatMap((capitolo) =>
-    //     capitolo.paragrafi.map((paragrafo) => ({
-    //       id: paragrafo.id, // Assicurati che ogni paragrafo abbia un ID univoco
-    //       nomeCapitolo: capitolo.nomeCapitolo,
-    //       nomeParagrafo: paragrafo.nomeParagrafo,
-    //       codicePlSql: paragrafo.codicePlSql,
-    //       sistem: system, // Aggiungi il nome del sistema per identificare la provenienza
-    //     }))
-    //   );
-    // };
 
     // Recupera i dati per tutti i sistemi in parallelo
     const allData = await Promise.all(

@@ -50,6 +50,8 @@ function App() {
     } else {
       dispatch(setSystem("default"));
     }
+
+    console.log(dataCapitoli);
   }, [dispatch, location.pathname]);
 
   const [isDownloadFromGit, setDownloadFromGit] = useState(false);
