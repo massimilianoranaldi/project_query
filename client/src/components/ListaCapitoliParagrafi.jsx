@@ -171,9 +171,7 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
               <button
                 title="Aggiungi Paragrafo"
                 className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-customColor3"
-                onClick={() =>
-                  handleAddParagraph(extractOriginalId(capitolo.id))
-                }
+                onClick={() => handleAddParagraph(capitolo.id)}
               >
                 <img
                   src={paragrafoIcon}
@@ -201,9 +199,7 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
               <button
                 title="Modifica Capitolo"
                 className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-customColor3"
-                onClick={() =>
-                  handleModifyChapter(extractOriginalId(capitolo.id))
-                }
+                onClick={() => handleModifyChapter(capitolo.id)}
               >
                 <img
                   src={paragrafoIcon8}
@@ -280,9 +276,7 @@ const ListaCapitoliParagrafi = ({ capitoli }) => {
                   <button
                     title="Modifica Paragrafo"
                     className="bg-transparent text-white px-3 py-1 rounded-2xl hover:bg-customColor3"
-                    onClick={() =>
-                      handleModifyPar(extractOriginalId(paragrafo.id))
-                    }
+                    onClick={() => handleModifyPar(paragrafo.id)}
                   >
                     <img
                       src={paragrafoIcon7}
