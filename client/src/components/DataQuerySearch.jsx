@@ -19,7 +19,7 @@ const DataQuerySearch = () => {
   const [pageSize, setPageSize] = useState(5);
   const [open, setOpen] = useState(false);
   const [dialogContent, setDialogContent] = useState("");
-  const [loading, setLoading] = useState(true); // Stato per il caricamento
+  const [loading, setLoading] = useState(false); // Stato per il caricamento se true simula timeout
 
   //per testare il timeout
   //--------------------------------------------------------
