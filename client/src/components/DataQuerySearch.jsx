@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DataGrid } from "@mui/x-data-grid";
-import "./styles.css";
 import {
   Typography,
   Dialog,
@@ -11,14 +10,36 @@ import {
   IconButton,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { fetchCapitoli, resetCapitoli } from "../redux/capitoliSlice"; // Importa il tuo thunk
+import { fetchCapitoli, resetCapitoli } from "../redux/capitoliSlice";
+import Loading from "../components/Loading"; // Importa il componente Loading
 
 const DataQuerySearch = () => {
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.capitoli.data); // Ottieni i dati dallo stato Redux
-  const [pageSize, setPageSize] = useState(5); // Imposta la dimensione della pagina a 5 come predefinito
+  const data = useSelector((state) => state.capitoli.data);
+  const [pageSize, setPageSize] = useState(5);
   const [open, setOpen] = useState(false);
   const [dialogContent, setDialogContent] = useState("");
+  const [loading, setLoading] = useState(true); // Stato per il caricamento
+
+  //per testare il timeout
+  //--------------------------------------------------------
+  // useEffect(() => {
+  //   // Simula un timeout per testare il caricamento
+  //   const fetchDataWithDelay = async () => {
+  //     await new Promise((resolve) => setTimeout(resolve, 2000)); // Ritarda di 2 secondi (2000 ms)
+  //     dispatch(fetchCapitoli(["ESB", "COM", "CRM"])).then(() => {
+  //       setLoading(false); // Imposta loading su false dopo che i dati sono stati caricati
+  //     });
+  //   };
+
+  //   fetchDataWithDelay();
+
+  //   // Funzione di cleanup per resettare lo stato quando il componente viene smontato
+  //   return () => {
+  //     dispatch(resetCapitoli());
+  //   };
+  // }, [dispatch]);
+  //--------------------------------------------------------
 
   useEffect(() => {
     // Chiama fetchCapitoli con i sistemi desiderati
@@ -33,11 +54,11 @@ const DataQuerySearch = () => {
   // Trasforma i dati nel formato desiderato
   const transformedData = data.flatMap((capitolo) =>
     capitolo.paragrafi.map((paragrafo) => ({
-      id: paragrafo.id + capitolo.sistem, // Assicurati che ogni paragrafo abbia un ID univoco
+      id: paragrafo.id + capitolo.sistem,
       nomeCapitolo: capitolo.nomeCapitolo,
       nomeParagrafo: paragrafo.nomeParagrafo,
       codicePlSql: paragrafo.codicePlSql,
-      sistem: capitolo.sistem, // Aggiungi il nome del sistema per identificare la provenienza
+      sistem: capitolo.sistem,
     }))
   );
 
@@ -93,26 +114,32 @@ const DataQuerySearch = () => {
       style={{ height: "100%", width: "100%" }}
       className="custom-header text-gray-700 font-sans mt-4"
     >
-      <DataGrid
-        rows={transformedData} // Usa i dati trasformati
-        columns={columns}
-        pageSize={pageSize} // Imposta la dimensione della pagina dallo stato
-        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)} // Gestisci il cambiamento della dimensione della pagina
-        rowsPerPageOptions={[5, 10, 20]} // Opzioni per il numero di righe per pagina
-        pagination
-        rowHeight={30}
-        disableSelectionOnClick
-        sx={{
-          "& .MuiDataGrid-cell": {
-            fontSize: "0.75rem", // Riduzione del font per celle
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            fontSize: "0.875rem", // Riduzione del font per intestazioni
-            backgroundColor: "#f1f5f9 !important", // Colore di sfondo per intestazioni
-          },
-        }}
-      />
+      {loading ? ( // Mostra il componente Loading se lo stato di caricamento è true
+        <Loading />
+      ) : (
+        // Mostra la tabella dei dati quando il caricamento è completato
+        <DataGrid
+          rows={transformedData}
+          columns={columns}
+          pageSize={pageSize}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          rowsPerPageOptions={[5, 10, 20]}
+          pagination
+          rowHeight={30}
+          disableSelectionOnClick
+          sx={{
+            "& .MuiDataGrid-cell": {
+              fontSize: "0.75rem",
+            },
+            "& .MuiDataGrid-columnHeaders": {
+              fontSize: "0.875rem",
+              backgroundColor: "#f1f5f9 !important",
+            },
+          }}
+        />
+      )}
 
+      {/* Dialog per mostrare i dettagli del paragrafo */}
       <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
         <DialogTitle>
           Dettagli

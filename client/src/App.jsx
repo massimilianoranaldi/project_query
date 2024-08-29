@@ -9,6 +9,8 @@ import {
 } from "./redux/capitoliSlice";
 import ListaCapitoliParagrafi from "./components/ListaCapitoliParagrafi";
 import CapitoloParagrafoForm from "./components/CapitoloParagrafoForm";
+import Loading from "./components/Loading"; // Assicurati che questo import punti al componente corretto
+import Error from "./components/Error"; // Assicurati che questo import punti al componente corretto
 import paragrafoIcon4 from "./assets/aggiungi_capitolo.png";
 import paragrafoIcon6 from "./assets/importa.png";
 import paragrafoIcon5 from "./assets/esporta.png";
@@ -27,25 +29,35 @@ function App() {
     system,
   } = useSelector((state) => state.capitoli);
 
+  //per simulare il timeout
+  //-----------------------------------------------
+  const [isSimulatedLoading, setSimulatedLoading] = useState(true); // Stato per la simulazione del timeoutdeve stare a TRUE altrimenti false
+
+  useEffect(() => {
+    // Simula un timeout di caricamento di 2 secondi
+    const timeoutId = setTimeout(() => {
+      setSimulatedLoading(false); // Imposta lo stato di caricamento a false dopo 2 secondi
+    }, 2000);
+
+    return () => clearTimeout(timeoutId); // Pulizia al termine dell'effetto
+  }, []);
+  //-----------------------------------------------
+
   useEffect(() => {
     dispatch(resetCapitoli());
 
     const path = location.pathname;
     if (path === "/SystemCOM") {
       dispatch(setSystem("COM"));
-      //dispatch(fetchCapitoli("COM"));
       dispatch(fetchCapitoli(["COM"]));
     } else if (path === "/SystemESB") {
       dispatch(setSystem("ESB"));
-      //dispatch(fetchCapitoli("ESB"));
       dispatch(fetchCapitoli(["ESB"]));
     } else if (path === "/SystemCRM") {
       dispatch(setSystem("CRM"));
-      //dispatch(fetchCapitoli("CRM"));
       dispatch(fetchCapitoli(["CRM"]));
     } else if (path === "/SystemCOMB") {
       dispatch(setSystem("COMB"));
-      //dispatch(fetchCapitoli("COMB"));
       dispatch(fetchCapitoli(["COMB"]));
     } else {
       dispatch(setSystem("default"));
@@ -67,12 +79,21 @@ function App() {
     operazione: null,
   });
 
-  if (loading) {
-    return <div>Loading...</div>;
+  // Mostra il componente di caricamento se `isSimulatedLoading` è true o se `loading` dallo stato redux è true
+  if (isSimulatedLoading || loading) {
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return (
+      <div>
+        <Error />
+      </div>
+    );
   }
 
   const handleAddCapitoloClick = () => {
