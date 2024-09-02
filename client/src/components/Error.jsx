@@ -32,13 +32,13 @@ const Loading = () => {
         {`
           @keyframes pulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.5); }
+            50% { transform: scale(5.5); }
             100% { transform: scale(1); }
           }
         `}
       </style>
-      <div style={hourglassStyle}>💣💣</div>
-      <div style={loadingTextStyle}>Loading...</div>
+      <div style={hourglassStyle}>🤯</div>
+      <div style={loadingTextStyle}>Error during Loading...</div>
     </div>
   );
 };
