@@ -80,7 +80,7 @@ function App() {
   });
 
   // Mostra il componente di caricamento se `isSimulatedLoading` è true o se `loading` dallo stato redux è true
-  if (true || isSimulatedLoading || loading) {
+  if (isSimulatedLoading || loading) {
     return (
       <div>
         <Loading />
